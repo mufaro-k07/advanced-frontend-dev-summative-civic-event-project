@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+
+  <main id="main" tabindex="-1" class="mx-auto w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">What's on in Harare</h1>
+        <p class="mt-1 text-ink-soft">Markets, walks, clean-ups and more. Find something and save your spot.</p>
+      </div>
+      <!-- Filled in for admins only -->
+      <div id="admin-actions"></div>
+    </div>
+
+    <form id="event-filters" role="search" aria-label="Find events" class="card-border mb-6 grid gap-4 rounded-panel border border-mist bg-white p-5 shadow-sm md:grid-cols-[2fr_1fr_1fr] md:items-start">
+      <div>
+        <label for="search" class="field-label">Search events</label>
+        <input id="search" type="search" autocomplete="off" aria-describedby="search-hint" class="field-input">
+        <p id="search-hint" class="field-hint">Searches names, places and descriptions, like "market" or "Mukuvisi".</p>
+      </div>
+      <div>
+        <label for="when" class="field-label">When</label>
+        <select id="when" class="field-input">
+          <option value="upcoming">Upcoming</option>
+          <option value="week">Next 7 days</option>
+          <option value="month">This month</option>
+          <option value="past">Past events</option>
+          <option value="all">All events</option>
+        </select>
+      </div>
+      <div>
+        <label for="sort" class="field-label">Sort by</label>
+        <select id="sort" class="field-input">
+          <option value="soonest">Soonest first</option>
+          <option value="latest">Latest first</option>
+        </select>
+      </div>
+    </form>
+
+    <!-- Says how many events match. Screen readers hear it each time the filters change. -->
+    <p id="results-summary" tabindex="-1" aria-live="polite" class="mb-4 font-semibold"></p>
+
+    <div id="event-list"></div>
+    <nav id="pagination" aria-label="Event pages" class="mt-8"></nav>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/cards.js"></script>
+  <script src="../js/pages/events.js"></script>
+</body>
+</html>
