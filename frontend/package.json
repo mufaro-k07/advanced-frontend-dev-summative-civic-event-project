@@ -1,0 +1,14 @@
+{
+  "name": "sunshine-263-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sunshine 263: a CivicEvents portal for Harare",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

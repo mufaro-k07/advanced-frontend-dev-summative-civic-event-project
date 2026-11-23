@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* Tailwind only scans files it can find, so point it at our HTML and JS */
+@source "../**/*.html";
+@source "../js/**/*.js";
+
+@theme {
+  --color-lily-teal: #0B4F4C;
+  --color-teal-deep: #073B39;
+  --color-flame: #C2362B;
+  --color-ember: #E85D1C;
+  --color-sunshine: #F4B22E;
+  --color-ivory: #FBF6EC;
+  --color-mist: #E2EEEA;
+  --color-ink: #1C2B2A;
+  --color-ink-soft: #4A5A58;
+  --color-jacaranda: #6B4FA0;
+  --color-success: #1D6B43;
+  --color-warning: #8A5300;
+  --color-error: #A8201A;
+
+  --font-heading: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-accent: "Instrument Serif", Georgia, serif;
+
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
+}
+
+@layer base {
+  body {
+    @apply bg-ivory text-ink font-body text-base leading-relaxed;
+  }
+
+  h1, h2, h3 {
+    @apply font-heading text-lily-teal;
+  }
+
+  /* Keyboard users need to see where they are, so the ring is never removed */
+  :focus-visible {
+    outline: 3px solid var(--color-lily-teal);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .flame-gradient {
+    background-image: linear-gradient(135deg, #C2362B, #E85D1C 55%, #F4B22E);
+  }
+
+  /* Hidden on screen but still read out by screen readers */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed top-2 left-2 z-50 rounded-control bg-white px-4 py-2 font-semibold text-lily-teal shadow-sm;
+  }
+}
