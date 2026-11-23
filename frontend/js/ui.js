@@ -51,6 +51,56 @@ const UI = {
     }, 5000);
   },
 
+  // Field errors. Each input has an empty <p id="[input id]-error"> under it,
+  // already linked with aria-describedby, so screen readers read the error with the label.
+  setFieldError: function ($input, message) {
+    const $error = $('#' + $input.attr('id') + '-error');
+    $input.attr('aria-invalid', 'true');
+    $error.html(UI.icons.error + '<span>' + UI.escapeHtml(message) + '</span>').removeClass('hidden');
+  },
+
+  clearFieldError: function ($input) {
+    const $error = $('#' + $input.attr('id') + '-error');
+    $input.removeAttr('aria-invalid');
+    $error.empty().addClass('hidden');
+  },
+
+  // The red box at the top of a form, for errors that aren't about one field
+  showFormError: function ($box, message) {
+    $box.html(
+      '<p class="flex items-start gap-2">' + UI.icons.error +
+        '<span><strong>Error:</strong> ' + UI.escapeHtml(message) + '</span></p>'
+    ).removeClass('hidden');
+  },
+
+  hideFormError: function ($box) {
+    $box.empty().addClass('hidden');
+  },
+
+  // Stops double clicks while a request is on its way, and says what's happening
+  setButtonLoading: function ($button, isLoading, loadingText) {
+    const $label = $button.find('.js-button-label');
+    if (isLoading) {
+      $button.data('original-label', $label.text());
+      $label.text(loadingText);
+      $button.prop('disabled', true).attr('aria-busy', 'true');
+    } else {
+      $label.text($button.data('original-label') || $label.text());
+      $button.prop('disabled', false).removeAttr('aria-busy');
+    }
+  },
+
+  // "Show password" toggle next to a password box. The label stays the same and
+  // aria-pressed tells screen readers whether it's on, which is the usual pattern for toggles.
+  setupPasswordToggle: function ($button) {
+    const $input = $('#' + $button.attr('aria-controls'));
+    $button.on('click', function () {
+      const isHidden = $input.attr('type') === 'password';
+      $input.attr('type', isHidden ? 'text' : 'password');
+      $button.attr('aria-pressed', isHidden ? 'true' : 'false');
+    });
+  },
+
   // Grey placeholder cards while a list is loading
   showSkeleton: function ($container, count) {
     const howMany = count || 3;

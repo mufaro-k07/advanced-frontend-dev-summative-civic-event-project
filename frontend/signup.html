@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an account · Sunshine 263</title>
+  <meta name="description" content="Join Sunshine 263 to register for events across Harare.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/output.css">
+</head>
+<body class="min-h-screen">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="min-h-screen lg:grid lg:grid-cols-2">
+
+    <!-- Brand panel: the Harare personality lives here, the form side stays plain -->
+    <header class="on-dark relative flex flex-col overflow-hidden bg-teal-deep text-ivory">
+      <div class="relative z-10 flex flex-1 flex-col px-4 pt-6 pb-8 md:px-8 lg:px-12 lg:pt-10">
+        <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex w-fit items-center gap-3 rounded-control">
+          <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="h-11 w-11 rounded-full object-cover ring-2 ring-sunshine">
+          <img src="assets/icons/logo-wordmark-light.svg" alt="" aria-hidden="true" class="h-8 w-auto">
+        </a>
+
+        <div class="mt-8 flex flex-1 flex-col justify-center lg:mt-0">
+          <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="mb-8 hidden h-40 w-40 rounded-full object-cover ring-4 ring-sunshine lg:block">
+          <p class="font-heading text-[40px] leading-[1.05] font-extrabold font-stretch-condensed md:text-[56px]">
+            Harare's community, in full <span class="font-accent font-normal italic text-sunshine">bloom</span>.
+          </p>
+          <p class="mt-4 max-w-md text-ivory">
+            Make a free account to register for events, get notified about what's new and leave feedback after you go.
+          </p>
+          <p class="mt-6 max-w-md text-sm text-ivory">
+            263 is Zimbabwe's dialling code. Harare is the Sunshine City.
+          </p>
+        </div>
+      </div>
+
+      <!-- Two identical halves so the scroll loops without a jump -->
+      <div class="marquee relative z-10" aria-hidden="true">
+        <div class="marquee-track">
+          <span class="px-4">Events · Announcements · Promos · Markets · Nature walks · Clean-ups · Harare ·</span>
+          <span class="px-4">Events · Announcements · Promos · Markets · Nature walks · Clean-ups · Harare ·</span>
+        </div>
+      </div>
+
+      <!-- Soft flame glow in the corner -->
+      <div class="flame-gradient pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-25 blur-2xl" aria-hidden="true"></div>
+    </header>
+
+    <div class="flex flex-col">
+      <main id="main" class="flex flex-1 items-center justify-center px-4 py-10 md:px-8">
+        <div class="w-full max-w-md">
+          <h1 class="text-[28px] font-extrabold md:text-[32px]">Join Sunshine 263</h1>
+          <p class="mt-1 mb-6 text-ink-soft">It takes a minute, and it's free.</p>
+
+          <div id="form-error" role="alert" class="mb-6 hidden rounded-control border border-error bg-white p-4 text-error"></div>
+
+          <form id="signup-form" class="rounded-panel bg-white p-6 shadow-sm" novalidate>
+            <div class="mb-5">
+              <label for="full-name" class="field-label">Full name</label>
+              <input id="full-name" name="full_name" type="text" autocomplete="name" required
+                     aria-describedby="full-name-error" class="field-input">
+              <p id="full-name-error" class="field-error hidden" aria-live="polite"></p>
+            </div>
+
+            <div class="mb-5">
+              <label for="email" class="field-label">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required
+                     aria-describedby="email-error" class="field-input">
+              <p id="email-error" class="field-error hidden" aria-live="polite"></p>
+            </div>
+
+            <div class="mb-5">
+              <div class="flex items-end justify-between">
+                <label for="password" class="field-label">Password</label>
+                <button type="button" id="toggle-password" aria-controls="password" aria-pressed="false"
+                        class="mb-1 min-h-11 rounded-control px-2 text-sm font-semibold text-lily-teal underline-offset-2 hover:underline aria-pressed:bg-mist">
+                  Show password
+                </button>
+              </div>
+              <input id="password" name="password" type="password" autocomplete="new-password" required
+                     aria-describedby="password-hint password-error" class="field-input">
+              <p id="password-hint" class="field-hint">Use at least 8 characters with an uppercase letter, a lowercase letter, a number and a symbol.</p>
+              <p id="password-error" class="field-error hidden" aria-live="polite"></p>
+
+              <!-- Strength meter. The bar is only a picture, the words and ticks carry the meaning. -->
+              <div class="mt-3">
+                <div class="h-2 overflow-hidden rounded-full bg-mist" aria-hidden="true">
+                  <div id="strength-bar" class="h-2 w-0 rounded-full transition-all duration-200"></div>
+                </div>
+                <p id="strength-label" class="mt-1 text-sm text-ink-soft">Strength: not started</p>
+                <ul id="password-rules" class="mt-2 grid gap-1 text-sm sm:grid-cols-2"></ul>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label for="confirm-password" class="field-label">Confirm password</label>
+              <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required
+                     aria-describedby="confirm-password-error" class="field-input">
+              <p id="confirm-password-error" class="field-error hidden" aria-live="polite"></p>
+            </div>
+
+            <button type="submit" id="signup-button" class="btn btn-primary btn-pill w-full justify-between">
+              <span class="js-button-label">Create account</span>
+              <span class="btn-arrow" aria-hidden="true">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-4.1-3.96a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.1-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
+              </span>
+            </button>
+          </form>
+
+          <p class="mt-6 text-center">
+            Already have an account?
+            <a href="login.html" class="font-semibold text-lily-teal underline underline-offset-2 hover:text-teal-deep">Log in</a>
+          </p>
+        </div>
+      </main>
+
+      <footer class="px-4 pb-6 text-center text-[13px] text-ink-soft md:px-8">
+        <p>Harare's community, in full bloom.</p>
+        <p>A student project. Not affiliated with the City of Harare.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/pages/signup.js"></script>
+</body>
+</html>

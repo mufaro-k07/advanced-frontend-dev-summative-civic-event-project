@@ -42,6 +42,19 @@
     outline: 3px solid var(--color-lily-teal);
     outline-offset: 2px;
   }
+
+  /* On dark teal panels a teal ring would vanish, so it turns yellow there */
+  .on-dark :focus-visible {
+    outline-color: var(--color-sunshine);
+  }
+
+  /* The Reduced motion setting (Stage 2) switches every animation off */
+  html[data-motion="reduced"] *,
+  html[data-motion="reduced"] *::before,
+  html[data-motion="reduced"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @layer components {
@@ -56,4 +69,70 @@
   .skip-link:focus {
     @apply not-sr-only fixed top-2 left-2 z-50 rounded-control bg-white px-4 py-2 font-semibold text-lily-teal shadow-sm;
   }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-control px-5 text-[15px] font-semibold transition-colors duration-150;
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+  .btn-primary {
+    @apply bg-lily-teal text-white hover:bg-teal-deep;
+  }
+  .btn-secondary {
+    @apply border-2 border-lily-teal bg-white text-lily-teal hover:bg-mist;
+  }
+  .btn-accent {
+    @apply bg-flame text-white hover:bg-error;
+  }
+  .btn-danger {
+    @apply bg-error text-white hover:bg-ink;
+  }
+
+  /* Main actions are pills with a little arrow circle on the right */
+  .btn-pill {
+    @apply rounded-full py-1 pr-1.5 pl-6;
+  }
+  .btn-arrow {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full bg-sunshine text-ink;
+  }
+
+  /* Form fields */
+  .field-label {
+    @apply mb-1 block text-sm font-semibold text-ink;
+  }
+  .field-input {
+    @apply min-h-11 w-full rounded-control border border-ink-soft bg-white px-3 text-base text-ink;
+  }
+  .field-input[aria-invalid="true"] {
+    @apply border-2 border-error;
+  }
+  .field-hint {
+    @apply mt-1 text-sm text-ink-soft;
+  }
+  .field-error {
+    @apply mt-1 flex items-start gap-1 text-sm text-error;
+  }
+
+  /* Sunshine marquee strip. Purely decorative, always aria-hidden. */
+  .marquee {
+    @apply overflow-hidden bg-sunshine py-2 font-heading text-sm font-bold tracking-wide text-ink uppercase;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+}
+
+/* The strip only moves for people whose device hasn't asked for less motion */
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }

@@ -90,6 +90,43 @@ const Auth = {
     return Auth.getRole() === 'admin';
   },
 
+  // Logs the person out the moment their token runs out, even if they're just sitting on a page
+  watchExpiry: function () {
+    const token = Auth.getToken();
+    const payload = token ? Auth.readTokenPayload(token) : null;
+    if (!payload || !payload.exp) {
+      return;
+    }
+    const msLeft = payload.exp * 1000 - Date.now();
+    setTimeout(function () {
+      Auth.logout('expired');
+    }, Math.max(msLeft, 0));
+  },
+
+  // Where each role lands after logging in
+  homePageFor: function (role) {
+    if (role === 'admin') {
+      return Config.pageUrl('admin/dashboard.html');
+    }
+    return Config.pageUrl('pages/dashboard.html');
+  },
+
+  // Used by login and signup once the backend hands us a token.
+  // The login response doesn't say if an account is disabled, so we ask for the profile first.
+  // Returns the request so the page can show an error if it fails.
+  finishLogin: function (token, rememberMe) {
+    Auth.save(token, null, rememberMe);
+    return Api.get('/users/profile/me').done(function (response) {
+      const user = response.data;
+      if (!user.is_active) {
+        Auth.logout('disabled');
+        return;
+      }
+      Auth.save(token, user, rememberMe);
+      window.location.replace(Auth.homePageFor(user.role));
+    });
+  },
+
   // reason ends up in the URL so the login page can say why they were sent back
   logout: function (reason) {
     Auth.clear();

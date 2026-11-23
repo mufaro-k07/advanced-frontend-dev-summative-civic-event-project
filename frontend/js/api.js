@@ -3,7 +3,9 @@
 // Every method returns the jQuery request, so pages can chain .done() and .fail().
 const Api = {
   request: function (method, path, body, isFormData) {
-    const token = Auth.getToken();
+    // Login and signup don't need a token, and an old expired one would only confuse things
+    const isAuthRoute = path.indexOf('/auth/') === 0;
+    const token = isAuthRoute ? null : Auth.getToken();
     const settings = {
       url: Config.API_BASE_URL + path,
       method: method,

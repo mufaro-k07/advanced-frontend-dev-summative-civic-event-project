@@ -11,6 +11,7 @@ const Guards = {
       Auth.logout('expired');
       return false;
     }
+    Auth.watchExpiry();
     return true;
   },
 
@@ -31,11 +32,7 @@ const Guards = {
     if (!Auth.isLoggedIn()) {
       return false;
     }
-    if (Auth.isAdmin()) {
-      window.location.replace(Config.pageUrl('admin/dashboard.html'));
-    } else {
-      window.location.replace(Config.pageUrl('pages/dashboard.html'));
-    }
+    window.location.replace(Auth.homePageFor(Auth.getRole()));
     return true;
   }
 };
