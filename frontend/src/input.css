@@ -47,11 +47,50 @@
   .on-dark :focus-visible {
     outline-color: var(--color-sunshine);
   }
+  /* ...except inside white pop-ups that sit on a dark panel, where teal shows up better */
+  .on-dark .on-light :focus-visible {
+    outline-color: var(--color-lily-teal);
+  }
 
-  /* The Reduced motion setting (Stage 2) switches every animation off */
+  /* Accessibility panel: Text size. Every size in the app is in rem, so this scales the whole UI. */
+  html[data-text-size="large"] {
+    font-size: 112.5%;
+  }
+  html[data-text-size="larger"] {
+    font-size: 125%;
+  }
+
+  /* Accessibility panel: Enhanced contrast. Swapping the colour variables changes every utility that uses them. */
+  html[data-contrast="high"] {
+    --color-ink-soft: #1C2B2A;
+    --color-mist: #CFE0DA;
+  }
+  html[data-contrast="high"] a {
+    text-decoration-line: underline;
+  }
+  html[data-contrast="high"] .field-input,
+  html[data-contrast="high"] .card-border {
+    border-color: var(--color-ink);
+  }
+  html[data-contrast="high"] :focus-visible {
+    outline-width: 4px;
+    outline-offset: 3px;
+  }
+
+  /* Accessibility panel: Reduced motion switches every animation and transition off */
   html[data-motion="reduced"] *,
   html[data-motion="reduced"] *::before,
   html[data-motion="reduced"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* "Follow my device": if the device asks for less motion, we listen */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
     transition: none !important;
   }
@@ -72,7 +111,7 @@
 
   /* Buttons */
   .btn {
-    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-control px-5 text-[15px] font-semibold transition-colors duration-150;
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-control px-5 text-[0.9375rem] font-semibold transition-colors duration-150;
   }
   .btn:disabled {
     @apply cursor-not-allowed opacity-60;
@@ -123,6 +162,15 @@
     display: flex;
     width: max-content;
   }
+}
+
+/* Notification drawer slides in from the right. Reduced motion turns the slide off. */
+.drawer {
+  transform: translateX(100%);
+  transition: transform 200ms ease-out;
+}
+.drawer.is-open {
+  transform: translateX(0);
 }
 
 /* The strip only moves for people whose device hasn't asked for less motion */

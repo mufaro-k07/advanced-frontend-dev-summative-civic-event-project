@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log in · Sunshine 263 · Harare's community, in full bloom</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
   <meta name="description" content="Sunshine 263: find events, announcements and promos across Harare.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,16 +28,19 @@
   <div class="min-h-screen lg:grid lg:grid-cols-2">
 
     <!-- Brand panel: the Harare personality lives here, the form side stays plain -->
-    <header class="on-dark relative flex flex-col overflow-hidden bg-teal-deep text-ivory">
+    <header class="on-dark relative flex flex-col bg-teal-deep text-ivory">
       <div class="relative z-10 flex flex-1 flex-col px-4 pt-6 pb-8 md:px-8 lg:px-12 lg:pt-10">
-        <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex w-fit items-center gap-3 rounded-control">
+        <div class="flex items-center justify-between gap-3">
+          <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex w-fit items-center gap-3 rounded-control">
           <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="h-11 w-11 rounded-full object-cover ring-2 ring-sunshine">
           <img src="assets/icons/logo-wordmark-light.svg" alt="" aria-hidden="true" class="h-8 w-auto">
         </a>
+          <div id="a11y-slot"></div>
+        </div>
 
         <div class="mt-8 flex flex-1 flex-col justify-center lg:mt-0">
           <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="mb-8 hidden h-40 w-40 rounded-full object-cover ring-4 ring-sunshine lg:block">
-          <p class="font-heading text-[40px] leading-[1.05] font-extrabold font-stretch-condensed md:text-[56px]">
+          <p class="font-heading text-[2.5rem] leading-[1.05] font-extrabold font-stretch-condensed md:text-[3.5rem]">
             Harare's community, in full <span class="font-accent font-normal italic text-sunshine">bloom</span>.
           </p>
           <p class="mt-4 max-w-md text-ivory">
@@ -45,14 +60,16 @@
         </div>
       </div>
 
-      <!-- Soft flame glow in the corner -->
-      <div class="flame-gradient pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-25 blur-2xl" aria-hidden="true"></div>
+      <!-- Soft flame glow in the corner. Its own clipping box, so the accessibility panel isn't cut off. -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="flame-gradient absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-25 blur-2xl"></div>
+      </div>
     </header>
 
     <div class="flex flex-col">
       <main id="main" class="flex flex-1 items-center justify-center px-4 py-10 md:px-8">
         <div class="w-full max-w-md">
-          <h1 class="text-[28px] font-extrabold md:text-[32px]">Welcome back</h1>
+          <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Welcome back</h1>
           <p class="mt-1 mb-6 text-ink-soft">Log in to see what's happening around Harare.</p>
 
           <!-- Filled in when someone is sent here, e.g. after their login expires -->
@@ -104,7 +121,7 @@
         </div>
       </main>
 
-      <footer class="px-4 pb-6 text-center text-[13px] text-ink-soft md:px-8">
+      <footer class="px-4 pb-6 text-center text-[0.8125rem] text-ink-soft md:px-8">
         <p>Harare's community, in full bloom.</p>
         <p>A student project. Not affiliated with the City of Harare.</p>
       </footer>
@@ -118,6 +135,7 @@
   <script src="js/guards.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/validate.js"></script>
+  <script src="js/a11y.js"></script>
   <script src="js/pages/login.js"></script>
 </body>
 </html>
