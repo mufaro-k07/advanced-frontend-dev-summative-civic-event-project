@@ -101,6 +101,68 @@ const UI = {
     });
   },
 
+  FOCUSABLE: 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+
+  // Keeps Tab and Shift+Tab inside an open dialog, so keyboard users can't get lost behind it
+  trapFocus: function ($container) {
+    $container.on('keydown.trap', function (event) {
+      if (event.key !== 'Tab') {
+        return;
+      }
+      const $items = $container.find(UI.FOCUSABLE).filter(':visible');
+      if ($items.length === 0) {
+        return;
+      }
+      const first = $items[0];
+      const last = $items[$items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  },
+
+  releaseFocus: function ($container) {
+    $container.off('keydown.trap');
+  },
+
+  // "Sat 28 Nov 2026"
+  formatDate: function (isoString) {
+    return new Date(isoString).toLocaleDateString('en-GB', {
+      weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+    });
+  },
+
+  // "08:00"
+  formatTime: function (isoString) {
+    return new Date(isoString).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  },
+
+  // "5 minutes ago", "3 days ago". Older than a week shows the date instead.
+  timeAgo: function (isoString) {
+    const seconds = Math.floor((Date.now() - new Date(isoString).getTime()) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (minutes < 1) {
+      return 'Just now';
+    }
+    if (minutes < 60) {
+      return minutes + (minutes === 1 ? ' minute ago' : ' minutes ago');
+    }
+    if (hours < 24) {
+      return hours + (hours === 1 ? ' hour ago' : ' hours ago');
+    }
+    if (days < 7) {
+      return days + (days === 1 ? ' day ago' : ' days ago');
+    }
+    return UI.formatDate(isoString);
+  },
+
   // Grey placeholder cards while a list is loading
   showSkeleton: function ($container, count) {
     const howMany = count || 3;
