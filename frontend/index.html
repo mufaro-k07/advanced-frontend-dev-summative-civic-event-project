@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
@@ -12,7 +24,7 @@
 <body class="on-dark flex min-h-screen items-center justify-center bg-teal-deep px-4 text-ivory">
   <main class="text-center" aria-busy="true">
     <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="mx-auto mb-6 h-24 w-24 rounded-full object-cover ring-4 ring-sunshine">
-    <h1 class="font-heading text-[28px] font-extrabold text-ivory md:text-[32px]">Opening Sunshine 263</h1>
+    <h1 class="font-heading text-[1.75rem] font-extrabold text-ivory md:text-[2rem]">Opening Sunshine 263</h1>
     <p class="mt-2">Harare's community, in full bloom.</p>
     <!-- Only seen if the redirect doesn't happen, e.g. JavaScript is off -->
     <p class="mt-6"><a href="login.html" class="font-semibold text-sunshine underline underline-offset-2">Go to the login page</a></p>

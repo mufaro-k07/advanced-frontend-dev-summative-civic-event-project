@@ -109,6 +109,7 @@ function clearErrorOnInput() {
 }
 
 showLoginNotice();
+A11y.mount($('#a11y-slot'));
 UI.setupPasswordToggle($('#toggle-password'));
 $('#login-form').on('submit', handleLoginSubmit);
 $('#email, #password').on('input', clearErrorOnInput);

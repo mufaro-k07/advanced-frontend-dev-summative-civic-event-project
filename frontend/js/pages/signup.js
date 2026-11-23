@@ -166,6 +166,7 @@ function clearErrorOnInput() {
   UI.clearFieldError($(this));
 }
 
+A11y.mount($('#a11y-slot'));
 UI.setupPasswordToggle($('#toggle-password'));
 updateStrengthMeter();
 $('#password').on('input', updateStrengthMeter);
