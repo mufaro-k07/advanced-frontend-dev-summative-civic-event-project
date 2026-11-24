@@ -78,7 +78,7 @@ const A11y = {
   },
 
   panelHtml: function (settings) {
-    return '<div id="a11y-panel" class="on-light absolute top-full right-0 z-40 mt-2 hidden w-[min(20rem,calc(100vw-2rem))] rounded-panel border border-mist bg-white p-5 text-left text-ink shadow-sm">' +
+    return '<div id="a11y-panel" class="on-light absolute top-full right-0 z-40 mt-2 hidden w-[min(20rem,calc(100vw-2rem))] rounded-panel border border-line bg-white p-5 text-left text-ink shadow-sm">' +
       '<h2 class="mb-1 text-lg font-bold">Accessibility</h2>' +
       '<p class="mb-4 text-sm text-ink-soft">These stay on across every page, on this device.</p>' +
       A11y.optionGroupHtml('a11y-text-size', 'Text size', [
@@ -98,9 +98,14 @@ const A11y = {
     '</div>';
   },
 
-  buttonHtml: function () {
+  // onPhoto is for the landing, login and signup pages, where the button sits on a dark photo
+  buttonHtml: function (onPhoto) {
+    let colours = 'border-lily-teal bg-white text-lily-teal hover:bg-mist';
+    if (onPhoto) {
+      colours = 'border-white bg-transparent text-white hover:bg-white/15';
+    }
     return '<button type="button" id="a11y-button" aria-expanded="false" aria-controls="a11y-panel" ' +
-        'class="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control border-2 border-lily-teal bg-white px-3 text-sm font-semibold text-lily-teal transition-colors duration-150 hover:bg-mist">' +
+        'class="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control border-2 px-3 text-sm font-semibold transition-colors duration-150 ' + colours + '">' +
         '<svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M20 8.5c0 .6-.4 1-1 1.1l-4.5.7v3.6l1.9 6.7a1 1 0 0 1-1.9.6L12.6 15h-1.2l-1.9 6.2a1 1 0 0 1-1.9-.6l1.9-6.7v-3.6L5 9.6a1 1 0 0 1 .3-2.1l5.2.6h3l5.2-.6c.6 0 1.3.4 1.3 1Z"/></svg>' +
         // The word hides on phones but screen readers still hear it, so no aria-label is needed
         '<span class="sr-only md:not-sr-only">Accessibility</span>' +
@@ -146,9 +151,9 @@ const A11y = {
   },
 
   // Builds the button and panel inside $slot and wires them up
-  mount: function ($slot) {
+  mount: function ($slot, onPhoto) {
     const settings = A11y.load();
-    $slot.addClass('relative').html(A11y.buttonHtml() + A11y.panelHtml(settings));
+    $slot.addClass('relative').html(A11y.buttonHtml(onPhoto) + A11y.panelHtml(settings));
 
     $('#a11y-button').on('click', function () {
       if ($('#a11y-panel').hasClass('hidden')) {

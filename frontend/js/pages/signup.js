@@ -166,7 +166,8 @@ function clearErrorOnInput() {
   UI.clearFieldError($(this));
 }
 
-A11y.mount($('#a11y-slot'));
+// true, because the button sits on the flame lily photo
+A11y.mount($('#a11y-slot'), true);
 UI.setupPasswordToggle($('#toggle-password'));
 updateStrengthMeter();
 $('#password').on('input', updateStrengthMeter);

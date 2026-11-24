@@ -19,126 +19,99 @@
   <meta name="description" content="Join Sunshine 263 to register for events across Harare.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dist/output.css">
 </head>
-<body class="min-h-screen">
+<body class="bg-teal-deep">
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <div class="min-h-screen lg:grid lg:grid-cols-2">
+  <!-- Full flame lily photo behind everything, with a teal fade that gets darker towards the form.
+       The photo is a CSS background, so if it's missing you still get the dark teal. -->
+  <div class="on-dark relative flex min-h-screen flex-col overflow-hidden bg-teal-deep bg-[url('../assets/images/flame-lily.jpg')] bg-cover bg-[30%_40%] text-white">
+    <div aria-hidden="true" class="absolute inset-0 bg-linear-to-r from-teal-deep/35 via-teal-deep/75 via-60% to-teal-deep/90"></div>
 
-    <!-- Brand panel: the Harare personality lives here, the form side stays plain -->
-    <header class="on-dark relative flex flex-col bg-teal-deep text-ivory">
-      <div class="relative z-10 flex flex-1 flex-col px-4 pt-6 pb-8 md:px-8 lg:px-12 lg:pt-10">
-        <div class="flex items-center justify-between gap-3">
-          <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex w-fit items-center gap-3 rounded-control">
-          <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="h-11 w-11 rounded-full object-cover ring-2 ring-sunshine">
-          <img src="assets/icons/logo-wordmark-light.svg" alt="" aria-hidden="true" class="h-8 w-auto">
-        </a>
-          <div id="a11y-slot"></div>
-        </div>
-
-        <div class="mt-8 flex flex-1 flex-col justify-center lg:mt-0">
-          <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="mb-8 hidden h-40 w-40 rounded-full object-cover ring-4 ring-sunshine lg:block">
-          <p class="font-heading text-[2.5rem] leading-[1.05] font-extrabold font-stretch-condensed md:text-[3.5rem]">
-            Harare's community, in full <span class="font-accent font-normal italic text-sunshine">bloom</span>.
-          </p>
-          <p class="mt-4 max-w-md text-ivory">
-            Make a free account to register for events, get notified about what's new and leave feedback after you go.
-          </p>
-          <p class="mt-6 max-w-md text-sm text-ivory">
-            263 is Zimbabwe's dialling code. Harare is the Sunshine City.
-          </p>
-        </div>
-      </div>
-
-      <!-- Two identical halves so the scroll loops without a jump -->
-      <div class="marquee relative z-10" aria-hidden="true">
-        <div class="marquee-track">
-          <span class="px-4">Events · Announcements · Promos · Markets · Nature walks · Clean-ups · Harare ·</span>
-          <span class="px-4">Events · Announcements · Promos · Markets · Nature walks · Clean-ups · Harare ·</span>
-        </div>
-      </div>
-
-      <!-- Soft flame glow in the corner. Its own clipping box, so the accessibility panel isn't cut off. -->
-      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div class="flame-gradient absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-25 blur-2xl"></div>
-      </div>
+    <header class="relative z-20 mx-auto flex w-full max-w-[1360px] items-center justify-between gap-3 px-4 py-6 md:px-10 md:py-8">
+      <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex min-h-11 items-center gap-2.5 rounded-control">
+        <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="h-9 w-9 rounded-full object-cover object-[50%_36%] ring-2 ring-sunshine">
+        <img src="assets/icons/logo-wordmark-light.svg" alt="" aria-hidden="true" class="h-6 w-auto">
+      </a>
+      <div id="a11y-slot"></div>
     </header>
 
-    <div class="flex flex-col">
-      <main id="main" class="flex flex-1 items-center justify-center px-4 py-10 md:px-8">
-        <div class="w-full max-w-md">
-          <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Join Sunshine 263</h1>
-          <p class="mt-1 mb-6 text-ink-soft">It takes a minute, and it's free.</p>
+    <div class="relative mx-auto flex w-full max-w-[1360px] flex-1 flex-wrap items-stretch gap-12 px-4 pt-2 pb-14 md:px-10">
+      <!-- The yellow frame with the huge words. The words hang over the bottom edge on purpose. -->
+      <div class="flex min-h-48 max-w-full flex-[1_1_520px] flex-col justify-end overflow-x-clip border-2 border-sunshine lg:min-h-[640px]">
+        <p class="-mb-1.5 translate-y-6 font-heading font-stretch-condensed text-[4rem] leading-[0.82] font-extrabold text-sunshine uppercase sm:text-[6rem] lg:translate-y-8 xl:text-[9.375rem]">Join the<br>city.</p>
+      </div>
 
-          <div id="form-error" role="alert" class="mb-6 hidden rounded-control border border-error bg-white p-4 text-error"></div>
+      <main id="main" tabindex="-1" class="on-light w-full max-w-[460px] flex-[0_1_460px] self-center">
+        <div class="rounded-card bg-white p-6 text-ink md:p-9">
+          <h1 class="text-[1.75rem] font-extrabold tracking-[-0.02em] md:text-[2rem]">Create your account</h1>
+          <p class="mt-1.5 text-[0.9375rem] text-ink-soft">Free, and it takes about a minute.</p>
 
-          <form id="signup-form" class="rounded-panel bg-white p-6 shadow-sm" novalidate>
-            <div class="mb-5">
-              <label for="full-name" class="field-label">Full name</label>
-              <input id="full-name" name="full_name" type="text" autocomplete="name" required
-                     aria-describedby="full-name-error" class="field-input">
+          <div id="form-error" role="alert" class="mt-5 hidden rounded-input border border-error bg-white p-4 text-error"></div>
+
+          <form id="signup-form" class="mt-5 flex flex-col gap-4.5" novalidate>
+            <div>
+              <label for="full-name" class="field-label font-bold">Full name</label>
+              <input id="full-name" name="full_name" type="text" autocomplete="name" required placeholder="e.g. Tendai Moyo"
+                     aria-describedby="full-name-error" class="field-input min-h-12">
               <p id="full-name-error" class="field-error hidden" aria-live="polite"></p>
             </div>
 
-            <div class="mb-5">
-              <label for="email" class="field-label">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required
-                     aria-describedby="email-error" class="field-input">
+            <div>
+              <label for="email" class="field-label font-bold">Email address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"
+                     aria-describedby="email-error" class="field-input min-h-12">
               <p id="email-error" class="field-error hidden" aria-live="polite"></p>
             </div>
 
-            <div class="mb-5">
+            <div>
               <div class="flex items-end justify-between">
-                <label for="password" class="field-label">Password</label>
+                <label for="password" class="field-label font-bold">Password</label>
                 <button type="button" id="toggle-password" aria-controls="password" aria-pressed="false"
-                        class="mb-1 min-h-11 rounded-control px-2 text-sm font-semibold text-lily-teal underline-offset-2 hover:underline aria-pressed:bg-mist">
+                        class="min-h-11 rounded-control px-2 text-sm font-bold text-lily-teal underline underline-offset-2 hover:text-teal-deep aria-pressed:bg-mist">
                   Show password
                 </button>
               </div>
               <input id="password" name="password" type="password" autocomplete="new-password" required
-                     aria-describedby="password-hint password-error" class="field-input">
+                     aria-describedby="password-hint password-error" class="field-input min-h-12">
               <p id="password-hint" class="field-hint">Use at least 8 characters with an uppercase letter, a lowercase letter, a number and a symbol.</p>
               <p id="password-error" class="field-error hidden" aria-live="polite"></p>
 
               <!-- Strength meter. The bar is only a picture, the words and ticks carry the meaning. -->
               <div class="mt-3">
-                <div class="h-2 overflow-hidden rounded-full bg-mist" aria-hidden="true">
-                  <div id="strength-bar" class="h-2 w-0 rounded-full transition-all duration-200"></div>
+                <div class="h-1.5 overflow-hidden bg-line" aria-hidden="true">
+                  <div id="strength-bar" class="h-1.5 w-0 transition-all duration-200"></div>
                 </div>
                 <p id="strength-label" class="mt-1 text-sm text-ink-soft">Strength: not started</p>
                 <ul id="password-rules" class="mt-2 grid gap-1 text-sm sm:grid-cols-2"></ul>
               </div>
             </div>
 
-            <div class="mb-6">
-              <label for="confirm-password" class="field-label">Confirm password</label>
+            <div>
+              <label for="confirm-password" class="field-label font-bold">Confirm password</label>
               <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required
-                     aria-describedby="confirm-password-error" class="field-input">
+                     aria-describedby="confirm-password-error" class="field-input min-h-12">
               <p id="confirm-password-error" class="field-error hidden" aria-live="polite"></p>
             </div>
 
-            <button type="submit" id="signup-button" class="btn btn-primary btn-pill w-full justify-between">
-              <span class="js-button-label">Create account</span>
-              <span class="btn-arrow" aria-hidden="true">
-                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-4.1-3.96a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.1-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
-              </span>
+            <button type="submit" id="signup-button" class="btn btn-primary min-h-[54px] w-full text-base font-bold">
+              <span class="js-button-label">Create account</span> <span aria-hidden="true">→</span>
             </button>
           </form>
 
-          <p class="mt-6 text-center">
-            Already have an account?
-            <a href="login.html" class="font-semibold text-lily-teal underline underline-offset-2 hover:text-teal-deep">Log in</a>
+          <p class="mt-4.5 text-center text-[0.9375rem] text-ink-soft">
+            Already a member?
+            <a href="login.html" class="font-bold text-lily-teal underline underline-offset-2 hover:text-teal-deep">Log in</a>
           </p>
         </div>
       </main>
-
-      <footer class="px-4 pb-6 text-center text-[0.8125rem] text-ink-soft md:px-8">
-        <p>Harare's community, in full bloom.</p>
-        <p>A student project. Not affiliated with the City of Harare.</p>
-      </footer>
     </div>
+
+    <footer class="relative px-4 pb-6 text-center text-[0.8125rem] text-mist md:px-10">
+      <p>A student project. Not affiliated with the City of Harare.</p>
+    </footer>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
