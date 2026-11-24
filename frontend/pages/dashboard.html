@@ -30,24 +30,26 @@
     <!-- Exam-season note, only in October and November. dashboard.js decides. -->
     <div id="jacaranda-banner" class="hidden"></div>
 
-    <!-- Welcome banner -->
-    <section aria-labelledby="welcome-heading" class="on-dark relative mb-10 overflow-hidden rounded-panel bg-lily-teal text-white">
-      <div class="relative z-10 flex flex-col gap-6 p-6 md:flex-row md:items-center md:p-10">
-        <div class="flex-1">
-          <h1 id="welcome-heading" class="text-[1.75rem] font-extrabold text-white md:text-[2rem]">
-            <span id="greeting">Hello</span>, <span id="first-name">neighbour</span>
-          </h1>
-          <p class="mt-2 max-w-xl text-lg">Here's what Harare is up to this week, from markets to nature walks.</p>
-          <a href="events.html" class="btn btn-pill mt-6 bg-sunshine text-ink hover:bg-white">
-            <span>Browse events</span>
-            <span class="btn-arrow" aria-hidden="true">
-              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-4.1-3.96a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.1-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
-            </span>
-          </a>
-        </div>
-        <img src="../assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="hidden h-36 w-36 rounded-full object-cover ring-4 ring-sunshine md:block">
+    <!-- Welcome: date and greeting on the left, "Your week" on the right. They stack on phones. -->
+    <section aria-labelledby="welcome-heading" class="mb-10 flex flex-wrap items-start gap-8 border-b border-line pb-10">
+      <div class="max-w-full flex-[999_1_420px]">
+        <p id="today-date" class="text-[0.8125rem] font-bold tracking-[0.1em] text-ink-soft uppercase"></p>
+        <h1 id="welcome-heading" class="mt-3 text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.02em] md:text-[3.5rem]">
+          <span id="shona-greeting" lang="sn">Mhoro</span>, <span id="first-name">neighbour</span>.
+          <span id="english-greeting" class="mt-2 block font-body text-lg font-normal tracking-normal text-ink-soft">Hello</span>
+        </h1>
+        <p class="mt-4 text-lg">Here's what Harare is up to this week.</p>
       </div>
-      <div class="flame-gradient pointer-events-none absolute -right-20 -bottom-28 h-72 w-72 rounded-full opacity-40 blur-2xl" aria-hidden="true"></div>
+
+      <div class="max-w-full flex-[1_1_320px] rounded-card border border-line bg-white px-5 py-4">
+        <h2 class="font-heading text-lg font-bold">Your week</h2>
+        <!-- Each row loads on its own, so one slow or broken request doesn't hold up the others -->
+        <ul class="mt-1 divide-y divide-line">
+          <li id="week-event"></li>
+          <li id="week-unread"></li>
+          <li id="week-requests"></li>
+        </ul>
+      </div>
     </section>
 
     <!-- Stats -->
