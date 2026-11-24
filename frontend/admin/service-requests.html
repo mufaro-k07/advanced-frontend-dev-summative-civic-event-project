@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service requests · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body class="bg-surface">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="min-h-screen md:flex">
+    <div id="admin-sidebar" class="bg-lily-teal md:w-[248px]"></div>
+
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div id="site-header" class="min-h-[61px] border-b border-line bg-white"></div>
+
+      <main id="main" tabindex="-1" class="w-full max-w-[1200px] flex-1 px-4 py-8 md:px-10">
+        <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Service requests</h1>
+        <p class="mt-1 mb-6 text-ink-soft">Problems residents have reported. Changing a status sends the resident a notification.</p>
+
+        <section aria-labelledby="list-heading" class="card-border rounded-card border border-line bg-white p-6">
+          <div class="mb-3 flex flex-wrap items-end justify-between gap-4">
+            <h2 id="list-heading" class="text-xl font-bold text-ink">All requests</h2>
+            <div class="w-full sm:w-56">
+              <label for="status-filter" class="field-label">Show</label>
+              <select id="status-filter" class="field-input">
+                <option value="">Every status</option>
+                <option value="submitted">Submitted</option>
+                <option value="in_progress">In progress</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+          </div>
+          <p id="results-summary" aria-live="polite" class="mb-2 font-semibold"></p>
+          <div id="request-list"></div>
+        </section>
+      </main>
+
+      <div id="site-footer"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/service-requests.js"></script>
+  <script src="../js/pages/service-requests.js"></script>
+</body>
+</html>

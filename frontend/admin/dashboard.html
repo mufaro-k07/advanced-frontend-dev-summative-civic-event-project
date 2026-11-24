@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin overview · Sunshine 263</title>
+  <title>Admin dashboard · Sunshine 263</title>
   <script>
     // Put saved accessibility settings on before the page draws, so the old look never flashes
     (function () {
@@ -18,48 +18,67 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../dist/output.css">
 </head>
-<body>
+<body class="bg-surface">
   <a href="#main" class="skip-link">Skip to content</a>
 
   <div class="min-h-screen md:flex">
-    <div id="admin-sidebar" class="bg-teal-deep md:w-[248px]"></div>
+    <div id="admin-sidebar" class="bg-lily-teal md:w-[248px]"></div>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+      <div id="site-header" class="min-h-[61px] border-b border-line bg-white"></div>
 
-      <main id="main" tabindex="-1" class="w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
-        <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <main id="main" tabindex="-1" class="flex w-full max-w-[1200px] flex-1 flex-col gap-6 px-4 py-8 md:px-10">
+        <div class="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Admin overview</h1>
-            <p class="mt-1 text-ink-soft">Welcome back, <span id="user-name">admin</span>. Here's how Sunshine 263 is doing.</p>
+            <h1 class="text-[2rem] font-extrabold tracking-[-0.02em] text-ink md:text-[2.125rem]">Mhoro, <span id="user-name">admin</span>.</h1>
+            <p class="mt-1 text-[0.9375rem] text-ink-soft">Here's what's happening across Sunshine 263 today.</p>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <a href="event-form.html" class="btn btn-primary">Add an event</a>
-            <a href="users.html" class="btn btn-secondary">Manage users</a>
+          <div class="flex flex-wrap gap-2.5">
+            <a href="event-form.html" class="btn btn-accent font-bold"><span aria-hidden="true">+</span> New event</a>
+            <a href="announcement-form.html" class="btn btn-secondary"><span aria-hidden="true">+</span> Announcement</a>
+            <a href="promo-form.html" class="btn btn-secondary"><span aria-hidden="true">+</span> Promo</a>
           </div>
         </div>
 
-        <section aria-labelledby="numbers-heading" class="mb-10">
-          <h2 id="numbers-heading" class="mb-4 text-2xl font-bold">The numbers</h2>
-          <div id="admin-stats"></div>
+        <section aria-labelledby="numbers-heading">
+          <h2 id="numbers-heading" class="sr-only">The numbers</h2>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div id="admin-stats" class="grid gap-4 sm:col-span-2 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3"></div>
+            <div id="open-requests-stat"></div>
+          </div>
         </section>
 
-        <div class="grid gap-6 lg:grid-cols-[3fr_2fr]">
-          <section aria-labelledby="growth-heading" class="card-border rounded-panel border border-mist bg-white p-6 shadow-sm">
-            <h2 id="growth-heading" class="mb-1 text-2xl font-bold">New sign-ups</h2>
-            <p class="mb-6 text-sm text-ink-soft">People who joined in each of the last six months.</p>
-            <div id="growth-chart"></div>
+        <div class="flex flex-wrap gap-4">
+          <section aria-labelledby="growth-heading" class="card-border min-w-0 flex-[2_1_520px] max-w-full rounded-card border border-line bg-white p-6">
+            <div class="flex flex-wrap items-baseline justify-between gap-3">
+              <h2 id="growth-heading" class="text-xl font-bold text-ink">New sign-ups per month</h2>
+              <span id="growth-range" class="text-[0.8125rem] text-ink-soft"></span>
+            </div>
+            <div id="growth-chart" class="mt-5"></div>
           </section>
 
-          <section aria-labelledby="people-heading" class="card-border rounded-panel border border-mist bg-white p-6 shadow-sm">
-            <h2 id="people-heading" class="mb-1 text-2xl font-bold">Accounts</h2>
-            <p class="mb-6 text-sm text-ink-soft">One dot for each account.</p>
-            <div id="user-dots"></div>
+          <section aria-labelledby="upcoming-heading" class="card-border min-w-0 flex-[1_1_300px] max-w-full rounded-card border border-line bg-white p-6">
+            <div class="mb-3.5 flex items-center justify-between gap-3">
+              <h2 id="upcoming-heading" class="text-xl font-bold text-ink">Coming up</h2>
+              <a href="../pages/events.html" class="inline-flex min-h-11 items-center text-sm font-bold text-lily-teal hover:underline">All events <span aria-hidden="true">&nbsp;&rarr;</span></a>
+            </div>
+            <div id="upcoming-events"></div>
           </section>
         </div>
+
+        <section aria-labelledby="requests-heading" class="card-border rounded-card border border-line bg-white p-6">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 id="requests-heading" class="text-xl font-bold text-ink">Service requests</h2>
+              <p class="mt-0.5 text-[0.8125rem] text-ink-soft">Changing a status sends the resident a notification.</p>
+            </div>
+            <a href="service-requests.html" class="inline-flex min-h-11 items-center text-sm font-bold text-lily-teal hover:underline">All requests <span aria-hidden="true">&nbsp;&rarr;</span></a>
+          </div>
+          <div id="service-requests"></div>
+        </section>
       </main>
 
       <div id="site-footer"></div>
@@ -74,6 +93,7 @@
   <script src="../js/ui.js"></script>
   <script src="../js/a11y.js"></script>
   <script src="../js/layout.js"></script>
+  <script src="../js/service-requests.js"></script>
   <script src="../js/pages/admin-dashboard.js"></script>
 </body>
 </html>
