@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promo · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+
+  <main id="main" tabindex="-1" class="mx-auto w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
+    <a href="promos.html" class="mb-6 inline-flex min-h-11 items-center gap-1 font-semibold text-lily-teal hover:underline">
+      <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.61l4.1 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08l-4.1 3.96h10.64A.75.75 0 0 1 17 10Z" clip-rule="evenodd"/></svg>
+      All promos
+    </a>
+    <div id="promo-content" class="max-w-4xl"></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/cards.js"></script>
+  <script src="../js/media-admin.js"></script>
+  <script src="../js/pages/promo.js"></script>
+</body>
+</html>

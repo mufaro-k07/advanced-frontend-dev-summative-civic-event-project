@@ -119,6 +119,29 @@ const Cards = {
       '</article>';
   },
 
+  // Promo card. There's no thumbnail field, so a muted, paused video shows its first frame instead.
+  // extraHtml is anything else the card needs, like admin badges and buttons.
+  promoCardHtml: function (promo, extraHtml) {
+    const href = Config.pageUrl('pages/promo.html?id=' + encodeURIComponent(promo.id));
+    return '<article class="card-border flex h-full flex-col overflow-hidden rounded-card border border-mist bg-white shadow-sm">' +
+        '<div class="relative bg-ink">' +
+          '<video src="' + UI.escapeHtml(promo.video_url) + '#t=0.5" preload="metadata" muted playsinline aria-hidden="true" tabindex="-1" class="h-44 w-full object-cover"></video>' +
+          '<span aria-hidden="true" class="absolute inset-0 flex items-center justify-center">' +
+            '<span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-lily-teal">' +
+              '<svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.9-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>' +
+            '</span>' +
+          '</span>' +
+        '</div>' +
+        '<div class="flex flex-1 flex-col p-5">' +
+          '<p class="mb-2"><span class="inline-flex items-center rounded-full bg-mist px-2.5 py-0.5 text-[0.8125rem] font-semibold text-ink">Captions on</span></p>' +
+          '<h3 class="text-lg font-bold"><a href="' + href + '" class="rounded-control hover:underline">' + UI.escapeHtml(promo.title) + '</a></h3>' +
+          '<p class="mt-1 line-clamp-2 text-sm text-ink-soft">' + UI.escapeHtml(promo.description || '') + '</p>' +
+          '<p class="mt-2 text-[0.8125rem] text-ink-soft">' + UI.escapeHtml(UI.formatDate(promo.created_at)) + '</p>' +
+          (extraHtml ? '<div class="mt-4">' + extraHtml + '</div>' : '') +
+        '</div>' +
+      '</article>';
+  },
+
   eventCardHtml: function (event) {
     const href = Config.pageUrl('pages/event.html?id=' + encodeURIComponent(event.id));
     return '<article class="' + Cards.SHELL_CLASS + ' flex gap-4">' +
