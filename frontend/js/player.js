@@ -76,7 +76,7 @@ const Player = {
           '<button type="button" class="js-share btn btn-secondary">Share</button>' +
         '</div>' +
         '<div id="' + uid + '-transcript" class="js-transcript-panel mt-4 hidden rounded-card bg-mist p-4">' +
-          '<h3 class="mb-1 text-lg font-bold">Transcript</h3>' +
+          '<h2 class="mb-1 text-lg font-bold">Transcript</h2>' +
           // The backend has no transcript field yet (gap 6), so this panel is ready for when it does
           '<p>' + Player.NO_TRANSCRIPT + '</p>' +
         '</div>' +

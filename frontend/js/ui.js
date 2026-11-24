@@ -21,25 +21,32 @@ const UI = {
 
   // Toasts sit at the top on phones and bottom-right on bigger screens.
   // type is 'success', 'error' or 'info'.
-  toast: function (message, type) {
-    const kind = type || 'info';
+  // Screen readers only announce changes to a live region that was already on the page,
+  // so the toast area is added as soon as the page loads, empty, and toasts go into it later
+  ensureToastArea: function () {
     let $area = $('#toast-area');
     if ($area.length === 0) {
-      $area = $('<div id="toast-area" class="fixed inset-x-4 top-4 z-50 flex flex-col gap-2 md:inset-x-auto md:top-auto md:right-6 md:bottom-6 md:w-96"></div>');
+      $area = $('<div id="toast-area" aria-live="polite" class="fixed inset-x-4 top-4 z-50 flex flex-col gap-2 md:inset-x-auto md:top-auto md:right-6 md:bottom-6 md:w-96"></div>');
       $('body').append($area);
     }
+    return $area;
+  },
+
+  toast: function (message, type) {
+    const kind = type || 'info';
+    const $area = UI.ensureToastArea();
 
     const colours = {
       success: 'border-success text-success',
       error: 'border-error text-error',
       info: 'border-lily-teal text-lily-teal'
     };
-    // Errors interrupt the screen reader straight away, everything else waits its turn
-    const role = kind === 'error' ? 'alert' : 'status';
+    // Errors interrupt the screen reader straight away. Everything else is read politely by the area.
+    const role = kind === 'error' ? ' role="alert"' : '';
     const label = kind === 'error' ? '<strong>Error:</strong> ' : '';
 
     const $toast = $(
-      '<div role="' + role + '" class="flex items-start gap-3 rounded-card border-l-4 bg-white p-4 shadow-sm ' + colours[kind] + '">' +
+      '<div' + role + ' class="flex items-start gap-3 rounded-card border-l-4 bg-white p-4 shadow-sm ' + colours[kind] + '">' +
         UI.icons[kind] +
         '<p class="text-sm text-ink">' + label + UI.escapeHtml(message) + '</p>' +
       '</div>'
@@ -226,7 +233,10 @@ const UI = {
       const saved = JSON.parse(window.sessionStorage.getItem('sunshine_flash'));
       window.sessionStorage.removeItem('sunshine_flash');
       if (saved && saved.message) {
-        UI.toast(saved.message, saved.type);
+        // A short wait lets screen readers notice the empty toast area before the message lands in it
+        setTimeout(function () {
+          UI.toast(saved.message, saved.type);
+        }, 400);
       }
     } catch (err) {
       // Nothing to show
@@ -270,3 +280,6 @@ const UI = {
     $container.find('.js-retry').on('click', onRetry);
   }
 };
+
+// Scripts load at the end of <body>, so the page is there and the empty toast area can go in now
+UI.ensureToastArea();
