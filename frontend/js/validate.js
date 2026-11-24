@@ -27,5 +27,27 @@ const Validate = {
   // A light check for typos. The backend does the strict one.
   isEmail: function (text) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text);
+  },
+
+  // The same file types and sizes the backend accepts
+  FILE_RULES: {
+    image: { extensions: ['jpg', 'jpeg', 'png', 'gif'], maxMb: 2, label: 'JPG, PNG or GIF' },
+    audio: { extensions: ['mp3', 'wav', 'm4a', 'ogg'], maxMb: 5, label: 'MP3, WAV, M4A or OGG' },
+    // Browsers can't play .mov or .mkv, so we only let admins upload .mp4
+    video: { extensions: ['mp4'], maxMb: 8, label: 'MP4' }
+  },
+
+  // Returns a message saying what's wrong with the file, or '' if it's fine
+  fileError: function (file, kind) {
+    const rule = Validate.FILE_RULES[kind];
+    const extension = file.name.split('.').pop().toLowerCase();
+    if (rule.extensions.indexOf(extension) === -1) {
+      return 'That file type won\'t work. Choose a ' + rule.label + ' file.';
+    }
+    if (file.size > rule.maxMb * 1024 * 1024) {
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      return 'That file is ' + sizeMb + ' MB. The limit is ' + rule.maxMb + ' MB, so try a smaller one.';
+    }
+    return '';
   }
 };

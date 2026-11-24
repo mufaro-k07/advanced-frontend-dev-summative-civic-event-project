@@ -41,6 +41,7 @@ const Layout = {
     Layout.setupProfileMenu();
     Layout.setupDrawer();
     Layout.loadNotifications();
+    UI.showFlash();
   },
 
   // Small building blocks
