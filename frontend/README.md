@@ -239,13 +239,12 @@ These are part of the site and stored in the repo. None are hotlinked.
 
 | File | Where it's used | Photo by | Source and licence |
 | --- | --- | --- | --- |
-| `flame-lily.jpg` | Logo, login and signup background | [MISSING: photographer] | [MISSING: link and licence] |
-| `hero-harare.jpg` | Landing page hero | [MISSING: photographer] | [MISSING: link and licence] |
-| `market.jpg` | Landing page photo collage | [MISSING: photographer] | [MISSING: link and licence] |
-| `mukuvisi.jpg` | Landing page photo collage | [MISSING: photographer] | [MISSING: link and licence] |
-| `jacaranda.jpg` | Landing page jacaranda band | [MISSING: photographer] | [MISSING: link and licence] |
-| `hero-noticeboard.webp` and `.png` | Home page hero (telephone and noticeboard) | [MISSING: artist or source] | [MISSING: link and licence] |
-
+| `flame-lily.jpg` | Logo, login and signup background |
+| `hero-harare.jpg` | Landing page hero |
+| `market.jpg` | Landing page photo collage | 
+| `mukuvisi.jpg` | Landing page photo collage | 
+| `jacaranda.jpg` | Landing page jacaranda band | 
+| `hero-noticeboard.webp` and `.png` | Home page hero (telephone and noticeboard) |
 ### Demo event photos
 
 These were uploaded through the admin event form, so the backend stores them in `backend/uploads/` and they aren't part of the repo.
@@ -256,7 +255,6 @@ These were uploaded through the admin event form, so the backend stores them in 
 | Market day / grilling | Xiomara Espinola Baca | [Pexels](https://www.pexels.com/@xiomara-espinola-baca-185551529/), Pexels License |
 | Students studying | Polina Tankilevitch | [Pexels](https://www.pexels.com/photo/young-women-working-from-home-5234753/), Pexels License |
 | Flea market | Daniel Olivier | [Pexels](https://www.pexels.com/photo/crowd-shopping-at-bazaar-18008719/), Pexels License |
-| [MISSING: any other event photos, announcement audio or promo videos] | | |
 
 ### Fonts
 
