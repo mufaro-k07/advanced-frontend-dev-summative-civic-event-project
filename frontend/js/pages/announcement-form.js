@@ -1,4 +1,4 @@
-// Admin: add an announcement, or edit its title and published state when the link has ?id=
+// Admin: add an announcement, or edit its title, transcript and published state when the link has ?id=
 
 const announcementForm = {
   id: new URLSearchParams(window.location.search).get('id'),
@@ -81,6 +81,7 @@ function createAnnouncement() {
   const formData = new FormData();
   formData.append('title', $('#title').val().trim());
   formData.append('published', $('#published').is(':checked') ? 'true' : 'false');
+  formData.append('transcript', $('#transcript').val().trim());
   formData.append('audio', $('#audio')[0].files[0]);
 
   Api.upload('POST', '/announcements', formData, showProgress)
@@ -90,13 +91,16 @@ function createAnnouncement() {
     .fail(saveFailed);
 }
 
-// Editing saves the title first, then publishes or unpublishes if that box changed.
+// Editing saves the title and transcript first, then publishes or unpublishes if that box changed.
 // We use the publish route for that, because it's the one that notifies residents.
 function updateAnnouncement() {
   const id = announcementForm.id;
   const wantsPublished = $('#published').is(':checked');
 
-  Api.put('/announcements/' + encodeURIComponent(id), { title: $('#title').val().trim() })
+  // The transcript is always sent, so emptying the box removes it
+  const changes = { title: $('#title').val().trim(), transcript: $('#transcript').val().trim() };
+
+  Api.put('/announcements/' + encodeURIComponent(id), changes)
     .done(function () {
       if (wantsPublished === announcementForm.wasPublished) {
         finishSaving(id, 'Announcement updated.');
@@ -129,7 +133,7 @@ function handleSubmit(event) {
 function loadForEditing() {
   document.title = 'Edit announcement · Sunshine 263';
   $('#form-heading').text('Edit announcement');
-  $('#form-intro').text('Change the title or move it between published and drafts.');
+  $('#form-intro').text('Change the title or transcript, or move it between published and drafts.');
   $('#audio-field').addClass('hidden');
   $('#audio-locked-note').removeClass('hidden');
   $('#cancel-link').attr('href', '../pages/announcement.html?id=' + encodeURIComponent(announcementForm.id));
@@ -140,6 +144,7 @@ function loadForEditing() {
     .done(function (response) {
       $('#form-loading').empty();
       $('#title').val(response.data.title);
+      $('#transcript').val(response.data.transcript || '');
       announcementForm.wasPublished = response.data.published !== false;
       $('#published').prop('checked', announcementForm.wasPublished);
       $('#announcement-form').removeClass('hidden');

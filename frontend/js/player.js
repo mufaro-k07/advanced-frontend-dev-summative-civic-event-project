@@ -77,11 +77,22 @@ const Player = {
         '</div>' +
         '<div id="' + uid + '-transcript" class="js-transcript-panel mt-4 hidden rounded-card bg-mist p-4">' +
           '<h2 class="mb-1 text-lg font-bold">Transcript</h2>' +
-          // The backend has no transcript field yet (gap 6), so this panel is ready for when it does
-          '<p>' + Player.NO_TRANSCRIPT + '</p>' +
+          Player.transcriptHtml(announcement) +
         '</div>' +
         Player.fallbackHtml(announcement) +
       '</div>';
+  },
+
+  // whitespace-pre-line keeps the line breaks from the admin form, and .escapeHtml keeps it plain text
+  transcriptHtml: function (announcement) {
+    if (!Player.hasTranscript(announcement)) {
+      return '<p>' + Player.NO_TRANSCRIPT + '</p>';
+    }
+    return '<p class="whitespace-pre-line">' + UI.escapeHtml(announcement.transcript.trim()) + '</p>';
+  },
+
+  hasTranscript: function (announcement) {
+    return Boolean(announcement.transcript && announcement.transcript.trim());
   },
 
   // The small player for each card on the list page.
@@ -92,7 +103,10 @@ const Player = {
         '<button type="button" class="js-play flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-lily-teal text-white transition-colors duration-150 hover:bg-teal-deep" aria-label="Play ' + UI.escapeHtml(announcement.title) + '">' + Player.PLAY_ICON + '</button>' +
         '<div class="min-w-0 flex-1">' +
           '<h3 class="text-lg font-bold"><a href="' + Player.detailUrl(announcement) + '" class="rounded-control hover:underline">' + UI.escapeHtml(announcement.title) + '</a></h3>' +
-          '<p class="text-sm text-ink-soft"><span class="js-duration">Checking length...</span> · ' + UI.escapeHtml(UI.formatDate(announcement.created_at)) + '</p>' +
+          '<p class="flex flex-wrap items-center gap-x-1 text-sm text-ink-soft"><span class="js-duration">Checking length...</span> · ' + UI.escapeHtml(UI.formatDate(announcement.created_at)) +
+            // Only rows that really have a transcript get the label
+            (Player.hasTranscript(announcement) ? ' <span class="ml-1 inline-flex rounded-full bg-mist px-2.5 py-0.5 text-[0.8125rem] font-semibold text-ink">Transcript</span>' : '') +
+          '</p>' +
           // A thin progress line. The detail page has the real seek bar, so this one is just a picture.
           '<div aria-hidden="true" class="mt-2 h-1.5 overflow-hidden rounded-full bg-mist"><div class="js-progress h-1.5 w-0 rounded-full bg-lily-teal"></div></div>' +
           Player.fallbackHtml(announcement) +
