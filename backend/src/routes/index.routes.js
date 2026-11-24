@@ -14,6 +14,7 @@ import announcements from './announcements.routes.js';
 import promos from './promos.routes.js';
 import notifications from './notifications.routes.js';
 import dashboard from './dashboard.routes.js';
+import serviceRequests from './serviceRequests.routes.js';
 
 const router = express.Router();
 
@@ -33,5 +34,6 @@ router.use('/announcements', announcements);
 router.use('/promos', promos);
 router.use('/notifications', notifications);
 router.use('/dashboard', dashboard);
+router.use('/service-requests', serviceRequests);
 
 export default router;
