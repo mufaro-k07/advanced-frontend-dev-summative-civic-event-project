@@ -2,10 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import * as Events from '../models/events.model.js';
 import * as Notifications from '../models/notifications.model.js';
+import { parseEventLinks } from '../utils/eventLinks.js';
 
 export const create = async (req, res, next) => {
     try {
-        const { title, description, location, starts_at, ends_at } = req.body;
+        const { title, description, location, starts_at, ends_at, links } = req.body;
 
         // Base event data
         const eventData = {
@@ -23,6 +24,12 @@ export const create = async (req, res, next) => {
         if (req.file) {
             const imageUrl = `${req.protocol}://${req.get('host')}/uploads/events/${req.file.filename}`;
             eventData.metadata.image_url = imageUrl;
+        }
+
+        // Optional video and social links, one per line
+        const eventLinks = parseEventLinks(links);
+        if (eventLinks.length > 0) {
+            eventData.metadata.links = eventLinks;
         }
 
         // Create the event
@@ -96,8 +103,18 @@ export const update = async (req, res, next) => {
         }
 
         // Prepare updated data
-        const { title, description, location, starts_at, ends_at } = req.body;
+        const { title, description, location, starts_at, ends_at, links } = req.body;
         const metadata = { ...existingEvent.metadata };
+
+        // Links are only changed when the form sends the field. An empty field removes them.
+        if (links !== undefined) {
+            const eventLinks = parseEventLinks(links);
+            if (eventLinks.length > 0) {
+                metadata.links = eventLinks;
+            } else {
+                delete metadata.links;
+            }
+        }
 
         // Handle new image upload
         if (req.file) {
