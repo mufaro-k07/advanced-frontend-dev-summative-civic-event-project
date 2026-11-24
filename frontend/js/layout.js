@@ -306,6 +306,33 @@ const Layout = {
     return count;
   },
 
+  // Notifications: where each one points
+  // The backend tags each notification with a type and puts the related id in metadata
+
+  NOTIFICATION_TYPES: {
+    event: { label: 'Event', idKey: 'event_id', page: 'pages/event.html', linkText: 'Go to the event' },
+    announcement: { label: 'Announcement', idKey: 'announcement_id', page: 'pages/announcement.html', linkText: 'Listen to the announcement' },
+    promo: { label: 'Promo', idKey: 'promo_id', page: 'pages/promo.html', linkText: 'Watch the promo' }
+  },
+
+  notificationTypeLabel: function (notification) {
+    const type = Layout.NOTIFICATION_TYPES[notification.type];
+    return type ? type.label : 'Update';
+  },
+
+  // Returns { href, text } for the item a notification is about, or null if there isn't one
+  relatedLinkFor: function (notification) {
+    const type = Layout.NOTIFICATION_TYPES[notification.type];
+    const metadata = notification.metadata || {};
+    if (!type || !metadata[type.idKey]) {
+      return null;
+    }
+    return {
+      href: Config.pageUrl(type.page + '?id=' + encodeURIComponent(metadata[type.idKey])),
+      text: type.linkText
+    };
+  },
+
   // Notifications: bell and drawer
 
   loadNotifications: function () {
