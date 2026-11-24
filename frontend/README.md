@@ -192,13 +192,12 @@ The settings are saved in `localStorage`. A tiny script in each page's `<head>` 
 
 ## Design decisions
 
-- **Harare personality, clean functionality.** The warmth goes into the landing page, the login and signup photo frames, the home greeting, empty states and the footer. Forms, tables and admin screens stay plain.
+- **Harare personality, clean functionality.** The warmth goes into the landing page, the login and signup photo frames, the home page hero, empty states and the footer. Forms, tables and admin screens stay plain.
+- **Home page hero: "Harare is calling."** A telephone hangs from the top edge of the teal hero next to a community noticeboard, because the city is calling its residents to see what's on. The artwork is one transparent WebP (with a PNG fallback) marked as decorative, so all the real information stays as text. It fades in once when the page opens and never moves after that, and with reduced motion on it simply appears.
 - **Colours from the flame lily**, Zimbabwe's national flower: Lily Teal (`#0B4F4C`) as the main colour, Flame (`#C2362B`) for the one main action on a screen, and Sunshine yellow for solid blocks and badges with dark text. White is the background. Every text colour pairing was checked for at least 4.5:1 contrast.
-- **Fonts:** Bricolage Grotesque for headings, Atkinson Hyperlegible Next for body text (it was made by the Braille Institute for low-vision readers), and Instrument Serif for the single word "bloom." in the landing headline.
+- **Fonts:** Bricolage Grotesque for headings, Atkinson Hyperlegible Next for body text (it was made by the Braille Institute for low-vision readers), and Instrument Serif italic for a few accent words: "bloom." on the landing page, and "calling." and the little note in the home page hero.
 - **Sharp corners:** inputs 4px, buttons 6px, cards and photos 8px. Full pills are only used for small status badges. These are Tailwind tokens (`rounded-input`, `rounded-control`, `rounded-card`), so changing them in one place changes the whole site.
-- **Local touches:**
-  - The home page greets you in Shona by the time of day (Mangwanani, Masikati, Manheru), with the English underneath.
-  - In October and November a jacaranda banner wishes students luck, because in Harare, when the jacarandas fall, exams begin. You can close it, and it stays closed for the rest of that year.
+- **A local touch:** in October and November a jacaranda banner on the home page wishes students luck, because in Harare, when the jacarandas fall, exams begin. You can close it, and it stays closed for the rest of that year.
 - **The admin chart is plain HTML.** It shows new sign-ups per month using the data the backend already sends, with no chart library. The backend has no registrations-by-month data, so I chose sign-ups instead.
 - **Simple over clever:** small named functions, plain loops, and comments that explain why something is done.
 
@@ -245,6 +244,7 @@ These are part of the site and stored in the repo. None are hotlinked.
 | `market.jpg` | Landing page photo collage | [MISSING: photographer] | [MISSING: link and licence] |
 | `mukuvisi.jpg` | Landing page photo collage | [MISSING: photographer] | [MISSING: link and licence] |
 | `jacaranda.jpg` | Landing page jacaranda band | [MISSING: photographer] | [MISSING: link and licence] |
+| `hero-noticeboard.webp` and `.png` | Home page hero (telephone and noticeboard) | [MISSING: artist or source] | [MISSING: link and licence] |
 
 ### Demo event photos
 
