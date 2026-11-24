@@ -238,7 +238,7 @@ const Layout = {
         '</div>' +
         '<div class="border-t border-lily-teal">' +
           '<div class="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-x-4 gap-y-1 px-4 py-4 text-[0.8125rem] md:px-8">' +
-            '<p>A student project. Not affiliated with the City of Harare.</p>' +
+            '<p>Made by Mufaro Victoria Kunze.</p>' +
             '<p>&copy; ' + year + ' Sunshine 263 · Photo credits are in the README</p>' +
           '</div>' +
         '</div>' +
