@@ -4,11 +4,11 @@ Sunshine 263 is my individual summative for **Advanced Frontend Web Development*
 
 Harare is known as the Sunshine City, and 263 is Zimbabwe's dialling code. On Sunshine 263, Harare residents can find and register for events, listen to city announcements, watch short promos with captions, and report problems in their street, like a pothole or a broken streetlight. City staff (admins) publish all of that content, manage users and move service requests from submitted to resolved. Accessibility is the main feature: text size, contrast and motion settings on every page, an audio player built for keyboards and screen readers, and captions switched on by default.
 
-A student project. Not affiliated with the City of Harare.
+Made by Mufaro Victoria Kunze, a software engineering student at the African Leadership University
 
 ## Demo video
 
-[MISSING: video link]
+https://drive.google.com/file/d/1ep9Np0-5Dc67S_KrafKGqSWCV-M1-kxX/view?usp=sharing
 
 ## What's in this repo
 
