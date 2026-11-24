@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunshine 263</title>
+  <title>Sunshine 263 · Harare's community, in full bloom</title>
   <script>
     // Put saved accessibility settings on before the page draws, so the old look never flashes
     (function () {
@@ -16,22 +16,233 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="dist/output.css">
-</head>
-<body class="on-dark flex min-h-screen items-center justify-center bg-teal-deep px-4 text-ivory">
-  <main class="text-center" aria-busy="true">
-    <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="mx-auto mb-6 h-24 w-24 rounded-full object-cover ring-4 ring-sunshine">
-    <h1 class="font-heading text-[1.75rem] font-extrabold text-ivory md:text-[2rem]">Opening Sunshine 263</h1>
-    <p class="mt-2">Harare's community, in full bloom.</p>
-    <!-- Only seen if the redirect doesn't happen, e.g. JavaScript is off -->
-    <p class="mt-6"><a href="login.html" class="font-semibold text-sunshine underline underline-offset-2">Go to the login page</a></p>
-  </main>
-
+  <!-- Runs before the page draws, so logged-in people go straight to their dashboard without seeing this page -->
   <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/pages/index.js"></script>
+  <meta name="description" content="Sunshine 263: find events, listen to city announcements, watch local promos and report problems in your street, across Harare.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/output.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- The header sits on top of the hero photo -->
+  <header class="on-dark absolute inset-x-0 top-0 z-20 text-white">
+    <div class="mx-auto flex min-h-21 max-w-[1360px] flex-wrap items-center gap-x-8 gap-y-2 px-4 py-2 md:px-10">
+      <a href="index.html" aria-label="Sunshine 263 home" class="inline-flex min-h-11 shrink-0 items-center gap-2.5 rounded-control">
+        <img src="assets/images/flame-lily.jpg" alt="" aria-hidden="true" class="h-9 w-9 rounded-full object-cover object-[50%_36%]">
+        <img src="assets/icons/logo-wordmark-light.svg" alt="" aria-hidden="true" class="h-6 w-auto">
+      </a>
+      <nav aria-label="On this page" class="hidden lg:block">
+        <ul class="flex gap-7 text-[0.9375rem] font-semibold">
+          <li><a href="#about" class="inline-flex min-h-11 items-center text-white hover:text-sunshine hover:underline">About</a></li>
+          <li><a href="#inside" class="inline-flex min-h-11 items-center text-white hover:text-sunshine hover:underline">What's inside</a></li>
+          <li><a href="#access" class="inline-flex min-h-11 items-center text-white hover:text-sunshine hover:underline">Accessibility</a></li>
+        </ul>
+      </nav>
+      <div class="ml-auto flex flex-wrap items-center gap-3">
+        <div id="a11y-slot"></div>
+        <a href="login.html" class="inline-flex min-h-11 items-center rounded-control px-2 text-[0.9375rem] font-bold text-white underline-offset-4 hover:underline">Log in</a>
+        <a href="signup.html" class="btn hidden bg-sunshine font-bold text-ink hover:bg-white sm:inline-flex">Join free</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- Hero: full photo with a dark teal fade so the white text stays readable.
+         The photo is a CSS background, so if the file is missing you just see the teal. -->
+    <section aria-labelledby="hero-heading" class="on-dark relative overflow-hidden bg-lily-teal bg-[url('../assets/images/hero-harare.jpg')] bg-cover bg-center text-white lg:min-h-[820px]">
+      <div aria-hidden="true" class="absolute inset-0 bg-linear-to-b from-teal-deep/55 via-teal-deep/15 via-40% to-teal-deep/85"></div>
+
+      <div class="relative mx-auto max-w-[1360px] px-4 pt-24 md:px-10 md:pt-28">
+        <div class="flex justify-between gap-4 text-[0.8125rem] tracking-[0.08em] text-mist uppercase">
+          <span>Harare, Zimbabwe</span>
+          <span class="hidden sm:inline">Events · News · Services</span>
+          <span>+263</span>
+        </div>
+
+        <h1 id="hero-heading" class="mt-16 font-stretch-condensed text-[4.5rem] leading-[0.82] font-extrabold tracking-[-0.02em] break-words text-white uppercase sm:text-[7rem] md:text-[9rem] lg:mt-28 lg:text-[11rem] xl:text-[14.5rem]">
+          Sunshine<br>City<span class="text-sunshine">.</span>
+        </h1>
+
+        <div class="mt-8 flex flex-wrap items-end justify-between gap-8 pb-12">
+          <p class="max-w-[460px] text-lg leading-relaxed md:text-xl">
+            Harare's community, in full <span class="font-accent text-[1.3em] text-sunshine italic">bloom.</span>
+            Find what's on, hear what the city has to say, and tell us when something in your street needs fixing.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="signup.html" class="btn min-h-14 gap-3.5 bg-sunshine px-5.5 text-base font-bold text-ink hover:bg-white">
+              Create your account <span aria-hidden="true">→</span>
+            </a>
+            <a href="login.html" class="btn min-h-14 border-2 border-white px-5.5 text-base font-bold text-white hover:bg-white/15">I have an account</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A. About -->
+    <section id="about" aria-labelledby="about-heading" class="mx-auto max-w-[1360px] px-4 pt-20 pb-16 md:px-10 md:pt-24">
+      <div class="mb-10 flex items-center gap-4 border-t border-line pt-4">
+        <span aria-hidden="true" class="flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-ink text-[0.8125rem] font-bold">A</span>
+        <h2 id="about-heading" class="font-body text-[0.8125rem] font-bold tracking-[0.1em] text-ink uppercase">About</h2>
+      </div>
+      <div class="flex flex-wrap gap-12">
+        <p class="max-w-full flex-[999_1_640px] font-heading text-[1.75rem] leading-[1.15] font-semibold tracking-[-0.02em] text-ink md:text-[2.875rem]">
+          Harare has always been a city that turns up.
+          <span class="text-ink-soft">For market day, for clean-up mornings, for music in the gardens. Sunshine 263 puts all of it in one place, for everyone.</span>
+        </p>
+        <div class="flex max-w-full flex-[1_1_280px] flex-col justify-end gap-4">
+          <p class="text-ink-soft">Built for residents who want to know what's happening, and for the city team who keep it running.</p>
+          <a href="signup.html" class="btn btn-primary min-h-12 self-start font-bold">Join free <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo collage. Each photo is a CSS background, so a missing file shows the teal block instead. -->
+    <section aria-label="Harare in pictures" class="mx-auto grid max-w-[1360px] gap-5 px-4 pb-24 md:px-10 lg:grid-cols-12">
+      <figure class="relative flex min-h-[420px] flex-col justify-end overflow-hidden rounded-card bg-lily-teal bg-[url('../assets/images/market.jpg')] bg-cover bg-center lg:col-span-7 lg:h-[520px]">
+        <figcaption class="flex flex-col gap-0.5 sm:flex-row">
+          <span class="flex-1 bg-teal-deep/90 px-5 py-4.5 text-white">
+            <strong class="block font-heading text-[1.375rem] text-sunshine">Market days</strong>
+            <span class="text-sm">Local growers, crafts and street food</span>
+          </span>
+          <span class="flex-1 bg-teal-deep/90 px-5 py-4.5 text-white">
+            <strong class="block font-heading text-[1.375rem] text-sunshine">Music nights</strong>
+            <span class="text-sm">Mbira and acoustic sets in the gardens</span>
+          </span>
+        </figcaption>
+      </figure>
+      <div class="flex flex-col gap-5 lg:col-span-5">
+        <figure class="relative min-h-[280px] flex-1 overflow-hidden rounded-card bg-lily-teal bg-[url('../assets/images/mukuvisi.jpg')] bg-cover bg-center">
+          <figcaption class="absolute bottom-4 left-4 rounded-input bg-white px-3 py-2 text-sm font-bold text-ink">Guided walks at Mukuvisi Woodlands</figcaption>
+        </figure>
+        <p class="flex items-end gap-4.5 py-2">
+          <!-- The big yellow number is decoration, so screen readers get it once in the sentence instead -->
+          <span aria-hidden="true" class="font-heading font-stretch-condensed text-[6rem] leading-[0.8] font-extrabold text-sunshine md:text-[9.375rem]">263</span>
+          <span class="pb-1.5 text-[1.0625rem] leading-snug"><span class="sr-only">263 is </span>Zimbabwe's dialling code,<br> and the name we chose.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- B. What's inside -->
+    <section id="inside" aria-labelledby="inside-heading" class="on-dark bg-teal-deep text-white">
+      <div class="mx-auto max-w-[1360px] px-4 py-20 md:px-10 md:py-22">
+        <div class="mb-8 flex items-center gap-4 border-t border-lily-teal pt-4">
+          <span aria-hidden="true" class="flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-white text-[0.8125rem] font-bold">B</span>
+          <h2 id="inside-heading" class="font-body text-[0.8125rem] font-bold tracking-[0.1em] text-white uppercase">What's inside</h2>
+        </div>
+        <!-- The arrows open the real pages. If you're not logged in, you're asked to log in first. -->
+        <ul>
+          <li class="grid items-center gap-4 border-b border-lily-teal py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,5fr)_64px] md:gap-6">
+            <h3 class="font-stretch-condensed text-[2.75rem] leading-none font-extrabold text-white uppercase md:text-[4rem]">Events</h3>
+            <p class="text-lg leading-relaxed text-mist">Markets, nature walks, music and clean-ups across Harare. Register in one click and get a reminder.</p>
+            <a href="pages/events.html" aria-label="Go to Events" class="flex h-14 w-14 items-center justify-center rounded-control border-[1.5px] border-sunshine text-[1.375rem] text-sunshine hover:bg-sunshine hover:text-ink"><span aria-hidden="true">↗</span></a>
+          </li>
+          <li class="grid items-center gap-4 border-b border-lily-teal py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,5fr)_64px] md:gap-6">
+            <h3 class="font-stretch-condensed text-[2.75rem] leading-none font-extrabold break-words text-white uppercase md:text-[4rem]">Announcements</h3>
+            <p class="text-lg leading-relaxed text-mist">City news read aloud, with a transcript for anyone who would rather read.</p>
+            <a href="pages/announcements.html" aria-label="Go to Announcements" class="flex h-14 w-14 items-center justify-center rounded-control border-[1.5px] border-sunshine text-[1.375rem] text-sunshine hover:bg-sunshine hover:text-ink"><span aria-hidden="true">↗</span></a>
+          </li>
+          <li class="grid items-center gap-4 border-b border-lily-teal py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,5fr)_64px] md:gap-6">
+            <h3 class="font-stretch-condensed text-[2.75rem] leading-none font-extrabold text-white uppercase md:text-[4rem]">Promos</h3>
+            <p class="text-lg leading-relaxed text-mist">Short films about the city, with captions on from the first second.</p>
+            <a href="pages/promos.html" aria-label="Go to Promos" class="flex h-14 w-14 items-center justify-center rounded-control border-[1.5px] border-sunshine text-[1.375rem] text-sunshine hover:bg-sunshine hover:text-ink"><span aria-hidden="true">↗</span></a>
+          </li>
+          <li class="grid items-center gap-4 border-b border-lily-teal py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,5fr)_64px] md:gap-6">
+            <h3 class="font-stretch-condensed text-[2.75rem] leading-none font-extrabold text-sunshine uppercase md:text-[4rem]">City services</h3>
+            <p class="text-lg leading-relaxed text-mist">Pothole, dark streetlight, burst pipe? Report it and follow it all the way to fixed.</p>
+            <a href="pages/services.html" aria-label="Go to City services" class="flex h-14 w-14 items-center justify-center rounded-control border-[1.5px] border-sunshine text-[1.375rem] text-sunshine hover:bg-sunshine hover:text-ink"><span aria-hidden="true">↗</span></a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Exam-season band, only in October and November. landing.js shows it.
+         Purple underneath, so it still works if the photo is missing. -->
+    <section id="jacaranda-band" aria-labelledby="jacaranda-heading" class="on-dark relative hidden min-h-[520px] items-end overflow-hidden bg-jacaranda bg-[url('../assets/images/jacaranda.jpg')] bg-cover bg-center text-white">
+      <div aria-hidden="true" class="absolute inset-0 bg-linear-to-t from-[#3D2866]/92 to-[#3D2866]/20 to-70%"></div>
+      <div class="relative mx-auto flex w-full max-w-[1360px] flex-wrap items-end justify-between gap-8 px-4 pt-24 pb-16 md:px-10">
+        <div class="max-w-[760px]">
+          <p class="mb-3 text-[0.8125rem] font-bold tracking-[0.12em] uppercase">October · November</p>
+          <h2 id="jacaranda-heading" class="font-stretch-condensed text-[2.75rem] leading-[0.95] font-extrabold text-white uppercase md:text-[5.25rem]">When the jacarandas fall, exams begin.</h2>
+          <p class="mt-4.5 max-w-[620px] text-lg leading-relaxed md:text-[1.1875rem]">Ask any Harare student. Before you're an exam candidate, the purple carpet is just pretty. After, it means the papers are close. This season the city is running study circles and quiet library hours for everyone writing.</p>
+        </div>
+        <a href="pages/events.html" class="btn min-h-[54px] flex-none bg-white px-5.5 font-bold text-jacaranda hover:bg-mist">See exam-season events <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- C. Made for everyone -->
+    <section id="access" aria-labelledby="access-heading" class="mx-auto max-w-[1360px] px-4 py-24 md:px-10">
+      <div class="mb-10 flex items-center gap-4 border-t border-line pt-4">
+        <span aria-hidden="true" class="flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-ink text-[0.8125rem] font-bold">C</span>
+        <p class="text-[0.8125rem] font-bold tracking-[0.1em] uppercase">Made for everyone</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-14">
+        <div class="max-w-full flex-[1_1_480px]">
+          <h2 id="access-heading" class="text-[2.5rem] leading-none font-extrabold tracking-[-0.03em] md:text-[3.5rem]">City news should reach every resident.</h2>
+          <p class="mt-4.5 max-w-[520px] text-lg leading-relaxed text-ink-soft">Every video has captions switched on, every announcement has a transcript, and the Accessibility button at the top works on every page, this one included.</p>
+        </div>
+        <!-- A summary of the three settings. The button opens the real panel in the header. -->
+        <div class="flex max-w-full flex-[1_1_420px] flex-col gap-5 rounded-card border-[1.5px] border-ink bg-white p-7 shadow-[8px_8px_0_var(--color-sunshine)]">
+          <h3 class="font-heading text-xl font-bold text-ink">What you can change</h3>
+          <dl class="flex flex-col">
+            <div class="border-t border-line py-4">
+              <dt class="font-bold">Text size</dt>
+              <dd class="text-[0.9375rem] text-ink-soft">Default, Large or Larger. The whole page grows, not just the words.</dd>
+            </div>
+            <div class="border-t border-line py-4">
+              <dt class="font-bold">Enhanced contrast</dt>
+              <dd class="text-[0.9375rem] text-ink-soft">Darker text and borders, and links are always underlined.</dd>
+            </div>
+            <div class="border-t border-line py-4">
+              <dt class="font-bold">Reduced motion</dt>
+              <dd class="text-[0.9375rem] text-ink-soft">Turns off slides and animations.</dd>
+            </div>
+          </dl>
+          <button type="button" id="open-a11y" class="btn btn-primary self-start font-bold">Try the settings</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join band -->
+    <section aria-labelledby="join-heading" class="bg-sunshine text-ink">
+      <div class="mx-auto flex max-w-[1360px] flex-wrap items-end justify-between gap-8 px-4 py-18 md:px-10">
+        <h2 id="join-heading" class="font-stretch-condensed text-[3.5rem] leading-[0.85] font-extrabold text-ink uppercase md:text-[7.5rem]">Join the<br>Sunshine City.</h2>
+        <a href="signup.html" class="btn min-h-15 gap-3.5 bg-teal-deep px-6.5 text-[1.0625rem] font-bold text-white hover:bg-lily-teal">Create your free account <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Same look as the footer on logged-in pages, but with links that work before you log in -->
+  <footer class="on-dark bg-teal-deep text-mist">
+    <div class="mx-auto grid max-w-[1200px] gap-8 px-4 pt-14 pb-10 md:grid-cols-3 md:px-8">
+      <div class="md:col-span-2">
+        <p class="font-heading text-[1.75rem] leading-tight font-extrabold text-ivory">Good things happen when Harare <span class="text-sunshine">shows up.</span></p>
+        <p class="mt-3 text-sm">263 is Zimbabwe's dialling code. Harare is the Sunshine City.</p>
+      </div>
+      <nav aria-label="Get started">
+        <p class="mb-2 text-[0.8125rem] font-bold tracking-widest text-sunshine uppercase">Get started</p>
+        <ul>
+          <li><a href="signup.html" class="inline-flex min-h-11 items-center text-[0.9375rem] text-mist underline-offset-2 hover:text-sunshine hover:underline">Create an account</a></li>
+          <li><a href="login.html" class="inline-flex min-h-11 items-center text-[0.9375rem] text-mist underline-offset-2 hover:text-sunshine hover:underline">Log in</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="border-t border-lily-teal">
+      <div class="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-x-4 gap-y-1 px-4 py-4 text-[0.8125rem] md:px-8">
+        <p>A student project. Not affiliated with the City of Harare.</p>
+        <p>&copy; <span id="footer-year">2026</span> Sunshine 263 · Photo credits are in the README</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/pages/landing.js"></script>
 </body>
 </html>
