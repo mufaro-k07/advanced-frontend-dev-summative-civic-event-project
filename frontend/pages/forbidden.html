@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not for this account · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+
+  <main id="main" tabindex="-1" class="mx-auto flex w-full max-w-[1200px] flex-1 items-center justify-center px-4 py-12 md:px-8">
+    <div class="max-w-xl text-center">
+      <!-- A closed gate with a flame lily on top: friendly, not scary -->
+      <svg aria-hidden="true" class="mx-auto mb-6 h-32 w-32" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="56" fill="#E2EEEA"/>
+        <rect x="30" y="50" width="60" height="44" rx="6" fill="#0B4F4C"/>
+        <path d="M42 50V40a18 18 0 0 1 36 0v10" fill="none" stroke="#0B4F4C" stroke-width="8"/>
+        <circle cx="60" cy="70" r="6" fill="#F4B22E"/>
+        <rect x="57" y="72" width="6" height="12" rx="2" fill="#F4B22E"/>
+        <ellipse cx="60" cy="16" rx="4" ry="9" fill="#C2362B"/>
+        <ellipse cx="60" cy="16" rx="4" ry="9" fill="#E85D1C" transform="rotate(50 60 24)"/>
+        <ellipse cx="60" cy="16" rx="4" ry="9" fill="#E85D1C" transform="rotate(-50 60 24)"/>
+      </svg>
+      <p class="font-heading text-sm font-bold tracking-wide text-flame uppercase">Error 403</p>
+      <h1 class="mt-2 text-[1.75rem] font-extrabold md:text-[2rem]">This page is for the city team</h1>
+      <p class="mt-3 text-lg">Your account doesn't have access to it. If you think it should, ask a Sunshine 263 admin to check your account.</p>
+      <a id="home-link" href="dashboard.html" class="btn btn-primary btn-pill mt-8">
+        <span>Back to your dashboard</span>
+        <span class="btn-arrow" aria-hidden="true">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-4.1-3.96a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.1-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
+        </span>
+      </a>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/pages/forbidden.js"></script>
+</body>
+</html>
