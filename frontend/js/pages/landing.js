@@ -1,7 +1,7 @@
 // Public landing page. Most of it is plain HTML; this just adds the bits that need JavaScript.
 
-// true, because the button sits on the hero photo
-A11y.mount($('#a11y-slot'), true);
+// The light version, because the button sits on the hero photo
+A11y.mount($('#a11y-slot'), { onPhoto: true });
 
 // "Try the settings" opens the same panel as the button at the top
 $('#open-a11y').on('click', function (event) {

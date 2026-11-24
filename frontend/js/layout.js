@@ -8,7 +8,6 @@ const Layout = {
   RESIDENT_LINKS: [
     { key: 'dashboard', label: 'Home', href: 'pages/dashboard.html' },
     { key: 'events', label: 'Events', href: 'pages/events.html' },
-    { key: 'my-registrations', label: 'My registrations', href: 'pages/my-registrations.html' },
     { key: 'announcements', label: 'Announcements', href: 'pages/announcements.html' },
     { key: 'promos', label: 'Promos', href: 'pages/promos.html' },
     { key: 'services', label: 'Services', href: 'pages/services.html' }
@@ -40,15 +39,15 @@ const Layout = {
 
     if (area === 'admin') {
       $('#admin-sidebar').replaceWith(Layout.adminSidebarHtml(options.page));
-      $('#site-header').replaceWith(Layout.adminTopBarHtml());
+      $('#site-header').replaceWith(Layout.adminTopBarHtml(options.page));
     } else {
       $('#site-header').replaceWith(Layout.residentHeaderHtml(options.page));
     }
     $('#site-footer').replaceWith(Layout.footerHtml());
     $('body').append(Layout.drawerHtml());
 
-    A11y.mount($('#a11y-slot'));
-    Layout.setupMenuToggle('#menu-button', '#mobile-nav');
+    A11y.mount($('#a11y-slot'), { iconOnly: true });
+    Layout.setupMobileMenu();
     Layout.setupProfileMenu();
     Layout.setupDrawer();
     Layout.loadNotifications();
@@ -59,8 +58,9 @@ const Layout = {
 
   logoHtml: function (homeHref, isLight) {
     const wordmark = isLight ? 'logo-wordmark-light.svg' : 'logo-wordmark.svg';
+    // On the smallest phones the round photo is hidden, so the whole header fits on one row
     return '<a href="' + Config.pageUrl(homeHref) + '" aria-label="Sunshine 263 home" class="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-control">' +
-        '<img src="' + Config.pageUrl('assets/images/flame-lily.jpg') + '" alt="" aria-hidden="true" class="h-9 w-9 rounded-full object-cover ring-2 ring-sunshine">' +
+        '<img src="' + Config.pageUrl('assets/images/flame-lily.jpg') + '" alt="" aria-hidden="true" class="hidden h-9 w-9 rounded-full object-cover ring-2 ring-sunshine sm:block">' +
         '<img src="' + Config.pageUrl('assets/icons/' + wordmark) + '" alt="" aria-hidden="true" class="h-6 w-auto">' +
       '</a>';
   },
@@ -77,14 +77,14 @@ const Layout = {
     return html;
   },
 
-  // ROLE GUARD: admins get an extra link to their area. Hiding it is only for tidiness,
+  // ROLE GUARD: admins get a small "Admin" button next to the bell. Hiding it is only for tidiness,
   // the admin pages check the role themselves.
-  residentLinksFor: function () {
-    const links = Layout.RESIDENT_LINKS.slice();
-    if (Auth.isAdmin()) {
-      links.push({ key: 'admin', label: 'Admin', href: 'admin/dashboard.html' });
+  adminButtonHtml: function () {
+    if (!Auth.isAdmin()) {
+      return '';
     }
-    return links;
+    return '<a href="' + Config.pageUrl('admin/dashboard.html') + '" ' +
+      'class="hidden min-h-11 items-center rounded-control border-[1.5px] border-lily-teal px-3 text-sm font-bold text-lily-teal transition-colors duration-150 hover:bg-mist sm:inline-flex">Admin</a>';
   },
 
   bellHtml: function () {
@@ -104,15 +104,27 @@ const Layout = {
     return initials.toUpperCase();
   },
 
-  profileMenuHtml: function (wrapperClass) {
+  // One link in the profile menu. aria-current marks it when you're on that page.
+  profileLinkHtml: function (key, label, href, currentPage) {
+    const current = key === currentPage ? ' aria-current="page"' : '';
+    return '<li><a href="' + Config.pageUrl(href) + '"' + current + ' class="flex min-h-11 items-center rounded-control px-3 hover:bg-mist aria-[current=page]:font-bold aria-[current=page]:text-lily-teal">' + label + '</a></li>';
+  },
+
+  profileMenuHtml: function (currentPage) {
     const user = Auth.getUser() || {};
     const firstName = (user.full_name || 'You').split(' ')[0];
-    return '<div id="profile-wrapper" class="relative ' + wrapperClass + '">' +
+    let adminLink = '';
+    // ROLE GUARD: only admins see the link to their dashboard. The admin pages check the role again.
+    if (Auth.isAdmin()) {
+      adminLink = Layout.profileLinkHtml('admin-dashboard', 'Admin dashboard', 'admin/dashboard.html', currentPage);
+    }
+    return '<div id="profile-wrapper" class="relative">' +
         '<button type="button" id="profile-button" aria-expanded="false" aria-controls="profile-menu" ' +
-          'class="inline-flex min-h-11 items-center gap-2 rounded-control px-2 font-semibold text-ink transition-colors duration-150 hover:bg-mist">' +
+          'class="inline-flex min-h-11 items-center gap-2 rounded-control px-1 font-semibold sm:px-2 text-ink transition-colors duration-150 hover:bg-mist">' +
           '<span aria-hidden="true" class="flex h-8 w-8 items-center justify-center rounded-full bg-lily-teal text-sm text-white">' + UI.escapeHtml(Layout.initialsFor(user.full_name)) + '</span>' +
-          '<span>' + UI.escapeHtml(firstName) + '<span class="sr-only">, account menu</span></span>' +
-          '<svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>' +
+          // The name hides on small phones but screen readers still hear it
+          '<span><span class="sr-only sm:not-sr-only">' + UI.escapeHtml(firstName) + '</span><span class="sr-only">, account menu</span></span>' +
+          '<svg aria-hidden="true" class="hidden h-4 w-4 sm:block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>' +
         '</button>' +
         '<div id="profile-menu" class="absolute top-full right-0 z-40 mt-2 hidden w-64 rounded-card border border-line bg-white p-2 shadow-sm">' +
           '<div class="border-b border-line px-3 py-2">' +
@@ -120,8 +132,10 @@ const Layout = {
             '<p class="text-[0.8125rem] break-all text-ink-soft">' + UI.escapeHtml(user.email || '') + '</p>' +
           '</div>' +
           '<ul class="pt-2">' +
-            '<li><a href="' + Config.pageUrl('pages/profile.html') + '" class="flex min-h-11 items-center rounded-control px-3 hover:bg-mist">Your profile</a></li>' +
-            '<li><button type="button" class="js-logout flex min-h-11 w-full items-center rounded-control px-3 text-left hover:bg-mist">Log out</button></li>' +
+            Layout.profileLinkHtml('profile', 'My profile', 'pages/profile.html', currentPage) +
+            Layout.profileLinkHtml('my-registrations', 'My registrations', 'pages/my-registrations.html', currentPage) +
+            adminLink +
+            '<li class="mt-1 border-t border-line pt-1"><button type="button" class="js-logout flex min-h-11 w-full items-center rounded-control px-3 text-left hover:bg-mist">Log out</button></li>' +
           '</ul>' +
         '</div>' +
       '</div>';
@@ -137,29 +151,30 @@ const Layout = {
 
   // Resident header
 
+  // One row: logo, five plain text links, then accessibility, Admin (admins only), bell and profile.
+  // The current page gets teal text and a 3px flame line underneath.
   residentHeaderHtml: function (currentPage) {
-    const links = Layout.residentLinksFor();
-    const desktopLinkClass = 'inline-flex min-h-11 items-center rounded-control px-3.5 text-[0.9375rem] font-semibold text-ink transition-colors duration-150 hover:bg-mist aria-[current=page]:bg-lily-teal aria-[current=page]:text-white';
-    const mobileLinkClass = 'flex min-h-11 items-center rounded-control border-l-4 border-transparent px-3 font-semibold text-ink hover:bg-mist aria-[current=page]:border-flame aria-[current=page]:bg-mist';
+    const links = Layout.RESIDENT_LINKS;
+    // The transparent top border matches the flame line at the bottom, so the text stays centred
+    const desktopLinkClass = 'inline-flex min-h-11 items-center border-y-3 border-transparent text-[0.9375rem] font-semibold text-ink transition-colors duration-150 hover:text-lily-teal aria-[current=page]:border-b-flame aria-[current=page]:text-lily-teal';
+    const mobileLinkClass = 'flex min-h-11 items-center rounded-control border-l-4 border-transparent px-3 font-semibold text-ink hover:bg-mist aria-[current=page]:border-flame aria-[current=page]:bg-mist aria-[current=page]:text-lily-teal';
 
     return '<header class="border-b border-line bg-white">' +
         // flex-wrap lets the row break onto two lines at very large text instead of spilling off the side
-        '<div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-3 px-4 py-2 md:px-8">' +
+        '<div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-3 gap-y-2 sm:gap-x-6 px-4 py-2 md:px-8">' +
           Layout.logoHtml('pages/dashboard.html', false) +
-          '<nav aria-label="Main" class="ml-4 hidden xl:block"><ul class="flex gap-1">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
+          '<nav aria-label="Main" class="hidden lg:block"><ul class="flex items-center gap-6">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
           '<div class="ml-auto flex items-center gap-1 sm:gap-2">' +
             '<div id="a11y-slot"></div>' +
+            Layout.adminButtonHtml() +
             Layout.bellHtml() +
-            Layout.profileMenuHtml('hidden xl:block') +
-            Layout.menuButtonHtml('xl:hidden') +
+            Layout.profileMenuHtml(currentPage) +
+            Layout.menuButtonHtml('lg:hidden') +
           '</div>' +
         '</div>' +
-        // On phones and tablets the links, profile and log out live in this menu instead
-        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-line px-4 py-3 xl:hidden">' +
-          '<ul class="grid gap-1">' + Layout.navLinksHtml(links, currentPage, mobileLinkClass) +
-            '<li class="mt-2 border-t border-line pt-2"><a href="' + Config.pageUrl('pages/profile.html') + '" class="' + mobileLinkClass + '">Your profile</a></li>' +
-            '<li><button type="button" class="js-logout ' + mobileLinkClass + ' w-full text-left">Log out</button></li>' +
-          '</ul>' +
+        // Below lg the five links live in this menu. Accessibility, bell and profile stay in the row.
+        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-line px-4 py-3 lg:hidden">' +
+          '<ul class="grid gap-1">' + Layout.navLinksHtml(links, currentPage, mobileLinkClass) + '</ul>' +
         '</nav>' +
       '</header>';
   },
@@ -190,12 +205,12 @@ const Layout = {
       '</aside>';
   },
 
-  adminTopBarHtml: function () {
+  adminTopBarHtml: function (currentPage) {
     return '<header class="border-b border-line bg-white">' +
         '<div class="flex items-center justify-end gap-2 px-4 py-2 md:px-8">' +
           '<div id="a11y-slot"></div>' +
           Layout.bellHtml() +
-          Layout.profileMenuHtml('') +
+          Layout.profileMenuHtml(currentPage) +
         '</div>' +
       '</header>';
   },
@@ -232,12 +247,56 @@ const Layout = {
 
   // Menus
 
-  // Phone menu: a simple show/hide button
-  setupMenuToggle: function (buttonSelector, menuSelector) {
-    $(buttonSelector).on('click', function () {
-      const isOpen = $(this).attr('aria-expanded') === 'true';
-      $(this).attr('aria-expanded', isOpen ? 'false' : 'true');
-      $(menuSelector).toggleClass('hidden', isOpen);
+  // Phone and tablet menu (the header links, or the admin sidebar links)
+  setupMobileMenu: function () {
+    const $button = $('#menu-button');
+    const $menu = $('#mobile-nav');
+
+    function isOpen() {
+      // Only counts while the button is on screen. On wider screens the links are always shown.
+      return $button.attr('aria-expanded') === 'true' && $button.is(':visible');
+    }
+
+    function closeMenu(returnFocus) {
+      $menu.addClass('hidden');
+      $button.attr('aria-expanded', 'false');
+      if (returnFocus) {
+        $button.trigger('focus');
+      }
+    }
+
+    $button.on('click', function () {
+      if (isOpen()) {
+        closeMenu(false);
+      } else {
+        $menu.removeClass('hidden');
+        $button.attr('aria-expanded', 'true');
+        $menu.find('a, button').first().trigger('focus');
+      }
+    });
+
+    // While it's open, Esc closes it and Tab only moves between the menu button and the menu links
+    $(document).on('keydown', function (event) {
+      if (!isOpen()) {
+        return;
+      }
+      if (event.key === 'Escape') {
+        closeMenu(true);
+        return;
+      }
+      if (event.key !== 'Tab') {
+        return;
+      }
+      const items = $button.add($menu.find('a, button')).toArray();
+      let next = items.indexOf(document.activeElement) + (event.shiftKey ? -1 : 1);
+      if (next < 0) {
+        next = items.length - 1;
+      }
+      if (next >= items.length) {
+        next = 0;
+      }
+      event.preventDefault();
+      items[next].focus();
     });
   },
 

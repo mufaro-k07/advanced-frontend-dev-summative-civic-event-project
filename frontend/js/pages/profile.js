@@ -83,7 +83,7 @@ function loadProfile() {
 
 // ROLE GUARD: any logged-in user can edit their own profile, logged-out people go to login
 if (Guards.requireAuth()) {
-  Layout.init({ page: '', area: 'resident' });
+  Layout.init({ page: 'profile', area: 'resident' });
   loadProfile();
   $('#profile-form').on('submit', handleProfileSubmit);
   $('#full-name, #email').on('input', function () { UI.clearFieldError($(this)); });

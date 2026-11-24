@@ -98,10 +98,14 @@ const A11y = {
     '</div>';
   },
 
-  // onPhoto is for the landing, login and signup pages, where the button sits on a dark photo
-  buttonHtml: function (onPhoto) {
+  // options.onPhoto: the landing, login and signup pages, where the button sits on a dark photo
+  // options.iconOnly: the header on logged-in pages, where space is tight
+  buttonHtml: function (options) {
+    if (options.iconOnly) {
+      return A11y.iconButtonHtml();
+    }
     let colours = 'border-lily-teal bg-white text-lily-teal hover:bg-mist';
-    if (onPhoto) {
+    if (options.onPhoto) {
       colours = 'border-white bg-transparent text-white hover:bg-white/15';
     }
     return '<button type="button" id="a11y-button" aria-expanded="false" aria-controls="a11y-panel" ' +
@@ -109,6 +113,16 @@ const A11y = {
         '<svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M20 8.5c0 .6-.4 1-1 1.1l-4.5.7v3.6l1.9 6.7a1 1 0 0 1-1.9.6L12.6 15h-1.2l-1.9 6.2a1 1 0 0 1-1.9-.6l1.9-6.7v-3.6L5 9.6a1 1 0 0 1 .3-2.1l5.2.6h3l5.2-.6c.6 0 1.3.4 1.3 1Z"/></svg>' +
         // The word hides on phones but screen readers still hear it, so no aria-label is needed
         '<span class="sr-only md:not-sr-only">Accessibility</span>' +
+      '</button>';
+  },
+
+  // Just the icon, so it gets an aria-label for screen readers and a tooltip for everyone else.
+  // The tooltip shows on hover and keyboard focus, and hides while the panel is open.
+  iconButtonHtml: function () {
+    return '<button type="button" id="a11y-button" aria-expanded="false" aria-controls="a11y-panel" aria-label="Accessibility settings" ' +
+        'class="group relative inline-flex h-11 w-11 items-center justify-center rounded-control border-[1.5px] border-lily-teal bg-white text-lily-teal transition-colors duration-150 hover:bg-mist">' +
+        '<svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M20 8.5c0 .6-.4 1-1 1.1l-4.5.7v3.6l1.9 6.7a1 1 0 0 1-1.9.6L12.6 15h-1.2l-1.9 6.2a1 1 0 0 1-1.9-.6l1.9-6.7v-3.6L5 9.6a1 1 0 0 1 .3-2.1l5.2.6h3l5.2-.6c.6 0 1.3.4 1.3 1Z"/></svg>' +
+        '<span aria-hidden="true" class="pointer-events-none absolute top-full left-1/2 z-30 mt-2 hidden -translate-x-1/2 rounded-input bg-ink px-2 py-1 text-[0.8125rem] font-semibold whitespace-nowrap text-white group-hover:block group-focus-visible:block group-aria-expanded:invisible">Accessibility settings</span>' +
       '</button>';
   },
 
@@ -151,9 +165,10 @@ const A11y = {
   },
 
   // Builds the button and panel inside $slot and wires them up
-  mount: function ($slot, onPhoto) {
+  // options is optional: { onPhoto: true } or { iconOnly: true }, see buttonHtml
+  mount: function ($slot, options) {
     const settings = A11y.load();
-    $slot.addClass('relative').html(A11y.buttonHtml(onPhoto) + A11y.panelHtml(settings));
+    $slot.addClass('relative').html(A11y.buttonHtml(options || {}) + A11y.panelHtml(settings));
 
     $('#a11y-button').on('click', function () {
       if ($('#a11y-panel').hasClass('hidden')) {
