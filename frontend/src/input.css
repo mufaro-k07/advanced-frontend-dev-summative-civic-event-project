@@ -65,7 +65,8 @@
     --color-ink-soft: #1C2B2A;
     --color-mist: #CFE0DA;
   }
-  html[data-contrast="high"] a {
+  /* Links that look like buttons already have a clear shape, so only text links get underlined */
+  html[data-contrast="high"] a:not(.btn) {
     text-decoration-line: underline;
   }
   html[data-contrast="high"] .field-input,
