@@ -35,7 +35,7 @@ function filteredUsers() {
 
 function userRowHtml(user) {
   const href = 'user.html?id=' + encodeURIComponent(user.id);
-  return '<tr class="border-t border-mist">' +
+  return '<tr class="border-t border-line">' +
       '<th scope="row" class="px-4 py-3 text-left font-semibold">' +
         '<a href="' + href + '" class="text-lily-teal underline-offset-2 hover:underline">' + UI.escapeHtml(user.full_name) + '</a>' +
       '</th>' +
@@ -63,7 +63,7 @@ function renderUsers() {
   // On narrow screens the table scrolls sideways inside its box instead of stretching the page.
   // tabindex lets keyboard users scroll it too.
   $('#user-list').html(
-    '<div role="region" aria-label="Users table" tabindex="0" class="card-border overflow-x-auto rounded-card border border-mist bg-white shadow-sm">' +
+    '<div role="region" aria-label="Users table" tabindex="0" class="card-border overflow-x-auto rounded-card border border-line bg-white">' +
       '<table class="w-full min-w-[640px] text-sm">' +
         '<caption class="sr-only">Users</caption>' +
         '<thead class="bg-mist text-left"><tr>' +

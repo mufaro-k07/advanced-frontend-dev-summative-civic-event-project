@@ -39,7 +39,7 @@ function registrationCardHtml(registration, group) {
     badge = Cards.badgeHtml('cancelled');
   }
 
-  return '<li class="card-border flex flex-col gap-4 rounded-card border border-mist bg-white p-5 shadow-sm sm:flex-row sm:items-center">' +
+  return '<li class="card-border flex flex-col gap-4 rounded-card border border-line bg-white p-5 sm:flex-row sm:items-center">' +
       Cards.dateBlockHtml(registration.starts_at) +
       '<div class="min-w-0 flex-1">' +
         '<div class="mb-1">' + badge + '</div>' +
@@ -73,7 +73,7 @@ function renderRegistrations() {
 
   if (myRegistrations.length === 0) {
     $container.html(
-      '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+      '<div class="rounded-card border border-line bg-white p-8 text-center">' +
         '<h2 class="mb-2 text-lg font-bold">You haven\'t signed up for anything yet</h2>' +
         '<p class="mb-4 text-ink-soft">Have a look at what\'s on. There\'s usually a market or a walk coming up.</p>' +
         '<a href="events.html" class="btn btn-primary">Browse events</a>' +

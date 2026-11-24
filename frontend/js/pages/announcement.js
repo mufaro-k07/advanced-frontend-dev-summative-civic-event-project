@@ -41,7 +41,7 @@ function renderAnnouncement() {
 
 function showNotFound() {
   $('#announcement-content').html(
-    '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+    '<div class="rounded-card border border-line bg-white p-8 text-center">' +
       '<h1 class="mb-2 text-[1.75rem] font-extrabold">We couldn\'t find that announcement</h1>' +
       '<p class="mb-4 text-ink-soft">It may have been removed, or the link is missing part of its address.</p>' +
       '<a href="announcements.html" class="btn btn-primary">See all announcements</a>' +

@@ -25,7 +25,7 @@ function deleteButtonHtml(notification) {
 function inboxItemHtml(notification) {
   const unread = !Layout.isRead(notification.id);
   const href = 'notification.html?id=' + encodeURIComponent(notification.id);
-  return '<li class="card-border flex flex-col gap-3 rounded-card border border-mist bg-white p-5 shadow-sm sm:flex-row sm:items-start ' + (unread ? 'border-l-4 border-l-flame' : '') + '">' +
+  return '<li class="card-border flex flex-col gap-3 rounded-card border border-line bg-white p-5 sm:flex-row sm:items-start ' + (unread ? 'border-l-4 border-l-flame' : '') + '">' +
       '<span aria-hidden="true" class="mt-2 hidden h-2.5 w-2.5 shrink-0 rounded-full sm:block ' + (unread ? 'bg-flame' : 'bg-transparent') + '"></span>' +
       '<div class="min-w-0 flex-1">' +
         '<p class="mb-1 text-[0.8125rem] font-semibold tracking-wide text-ink-soft uppercase">' +

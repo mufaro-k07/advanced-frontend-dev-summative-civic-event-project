@@ -11,6 +11,8 @@
   --color-ember: #E85D1C;
   --color-sunshine: #F4B22E;
   --color-ivory: #FBF6EC;
+  --color-surface: #F4F7F6;
+  --color-line: #DDE5E2;
   --color-mist: #E2EEEA;
   --color-ink: #1C2B2A;
   --color-ink-soft: #4A5A58;
@@ -23,14 +25,16 @@
   --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --font-accent: "Instrument Serif", Georgia, serif;
 
-  --radius-control: 8px;
-  --radius-card: 12px;
-  --radius-panel: 16px;
+  /* Sharp corners: inputs 4px, buttons 6px, cards and photos 8px. Full pills are only for small status badges. */
+  --radius-input: 4px;
+  --radius-control: 6px;
+  --radius-card: 8px;
+  --radius-panel: 8px;
 }
 
 @layer base {
   body {
-    @apply bg-ivory text-ink font-body text-base leading-relaxed;
+    @apply bg-white text-ink font-body text-base leading-relaxed;
   }
 
   h1, h2, h3 {
@@ -64,6 +68,8 @@
   html[data-contrast="high"] {
     --color-ink-soft: #1C2B2A;
     --color-mist: #CFE0DA;
+    /* Card borders go from pale to clearly visible (3:1 or more on white) */
+    --color-line: #6F8582;
   }
   /* Links that look like buttons already have a clear shape, so only text links get underlined */
   html[data-contrast="high"] a:not(.btn) {
@@ -130,12 +136,12 @@
     @apply bg-error text-white hover:bg-ink;
   }
 
-  /* Main actions are pills with a little arrow circle on the right */
+  /* Main actions have a little arrow on the right */
   .btn-pill {
-    @apply rounded-full py-1 pr-1.5 pl-6;
+    @apply px-5;
   }
   .btn-arrow {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-full bg-sunshine text-ink;
+    @apply inline-flex items-center justify-center;
   }
 
   /* Form fields */
@@ -143,7 +149,7 @@
     @apply mb-1 block text-sm font-semibold text-ink;
   }
   .field-input {
-    @apply min-h-11 w-full rounded-control border border-ink-soft bg-white px-3 text-base text-ink;
+    @apply min-h-11 w-full rounded-input border border-ink-soft bg-white px-3 text-base text-ink;
   }
   .field-input[aria-invalid="true"] {
     @apply border-2 border-error;
@@ -154,15 +160,6 @@
   .field-error {
     @apply mt-1 flex items-start gap-1 text-sm text-error;
   }
-
-  /* Sunshine marquee strip. Purely decorative, always aria-hidden. */
-  .marquee {
-    @apply overflow-hidden bg-sunshine py-2 font-heading text-sm font-bold tracking-wide text-ink uppercase;
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-  }
 }
 
 /* Notification drawer slides in from the right. Reduced motion turns the slide off. */
@@ -172,16 +169,4 @@
 }
 .drawer.is-open {
   transform: translateX(0);
-}
-
-/* The strip only moves for people whose device hasn't asked for less motion */
-@media (prefers-reduced-motion: no-preference) {
-  .marquee-track {
-    animation: marquee 40s linear infinite;
-  }
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
 }

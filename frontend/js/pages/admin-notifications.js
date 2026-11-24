@@ -2,7 +2,7 @@
 
 function adminRowHtml(notification) {
   const title = UI.escapeHtml(notification.title);
-  return '<tr class="border-t border-mist align-top">' +
+  return '<tr class="border-t border-line align-top">' +
       '<td class="px-4 py-3">' + UI.escapeHtml(Layout.notificationTypeLabel(notification)) + '</td>' +
       '<th scope="row" class="px-4 py-3 text-left font-normal">' +
         '<a href="../pages/notification.html?id=' + encodeURIComponent(notification.id) + '" class="font-semibold text-lily-teal underline-offset-2 hover:underline">' + title + '</a>' +
@@ -31,7 +31,7 @@ function renderAdminList() {
   }
   // On narrow screens the table scrolls sideways inside its box. tabindex lets keyboard users scroll it.
   $('#admin-notification-list').html(
-    '<div role="region" aria-label="Notifications table" tabindex="0" class="card-border overflow-x-auto rounded-card border border-mist bg-white shadow-sm">' +
+    '<div role="region" aria-label="Notifications table" tabindex="0" class="card-border overflow-x-auto rounded-card border border-line bg-white">' +
       '<table class="w-full min-w-[640px] text-sm">' +
         '<caption class="sr-only">All notifications</caption>' +
         '<thead class="bg-mist text-left"><tr>' +

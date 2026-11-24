@@ -1,7 +1,7 @@
 // Card templates shared by the dashboard and list pages, so events,
 // announcements and promos all look like one product.
 const Cards = {
-  SHELL_CLASS: 'card-border rounded-card border border-mist bg-white p-5 shadow-sm',
+  SHELL_CLASS: 'card-border rounded-card border border-line bg-white p-5',
 
   // Residents only see published items. The backend sends drafts too, so we filter here.
   onlyPublished: function (items) {
@@ -103,7 +103,7 @@ const Cards = {
       badges += Cards.badgeHtml(status);
     }
 
-    return '<article class="card-border flex flex-col overflow-hidden rounded-card border border-mist bg-white shadow-sm">' +
+    return '<article class="card-border flex flex-col overflow-hidden rounded-card border border-line bg-white">' +
         Cards.eventImageHtml(event, 'h-40') +
         '<div class="flex flex-1 gap-4 p-5">' +
           Cards.dateBlockHtml(event.starts_at) +
@@ -123,7 +123,7 @@ const Cards = {
   // extraHtml is anything else the card needs, like admin badges and buttons.
   promoCardHtml: function (promo, extraHtml) {
     const href = Config.pageUrl('pages/promo.html?id=' + encodeURIComponent(promo.id));
-    return '<article class="card-border flex h-full flex-col overflow-hidden rounded-card border border-mist bg-white shadow-sm">' +
+    return '<article class="card-border flex h-full flex-col overflow-hidden rounded-card border border-line bg-white">' +
         '<div class="relative bg-ink">' +
           '<video src="' + UI.escapeHtml(promo.video_url) + '#t=0.5" preload="metadata" muted playsinline aria-hidden="true" tabindex="-1" class="h-44 w-full object-cover"></video>' +
           '<span aria-hidden="true" class="absolute inset-0 flex items-center justify-center">' +

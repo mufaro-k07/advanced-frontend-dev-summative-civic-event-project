@@ -80,7 +80,7 @@ function showJacarandaBanner() {
 // Stats
 
 function statHtml(id, value, label) {
-  return '<div class="card-border flex flex-col rounded-card border border-mist bg-white p-5 shadow-sm">' +
+  return '<div class="card-border flex flex-col rounded-card border border-line bg-white p-5">' +
       '<dt class="order-2 mt-2 text-sm text-ink-soft">' + label + '</dt>' +
       '<dd id="' + id + '" class="order-1 font-heading text-[2.5rem] leading-none font-extrabold text-lily-teal">' + value + '</dd>' +
     '</div>';
@@ -89,7 +89,7 @@ function statHtml(id, value, label) {
 function showStatsSkeleton() {
   let html = '<div aria-busy="true" aria-label="Loading your stats" class="grid grid-cols-2 gap-4 lg:grid-cols-4">';
   for (let i = 0; i < 4; i++) {
-    html += '<div class="animate-pulse rounded-card bg-white p-5 shadow-sm"><div class="mb-3 h-9 w-12 rounded bg-mist"></div><div class="h-3 w-3/4 rounded bg-mist"></div></div>';
+    html += '<div class="animate-pulse rounded-card border border-line bg-white p-5"><div class="mb-3 h-9 w-12 rounded bg-mist"></div><div class="h-3 w-3/4 rounded bg-mist"></div></div>';
   }
   html += '</div>';
   $('#stats').html(html);

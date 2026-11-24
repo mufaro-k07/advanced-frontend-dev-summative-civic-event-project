@@ -28,7 +28,7 @@ function renderUser() {
   document.title = user.full_name + ' · Sunshine 263';
 
   $('#user-content').html(
-    '<div class="card-border max-w-2xl rounded-panel border border-mist bg-white p-6 shadow-sm">' +
+    '<div class="card-border max-w-2xl rounded-panel border border-line bg-white p-6">' +
       '<div class="mb-4 flex flex-wrap gap-2">' +
         Cards.badgeHtml(user.role === 'admin' ? 'admin' : 'user') +
         Cards.badgeHtml(user.is_active ? 'active' : 'disabled') +
@@ -40,7 +40,7 @@ function renderUser() {
         '<div><dt class="text-sm font-semibold text-ink-soft">Joined</dt><dd>' + UI.escapeHtml(UI.formatDate(user.created_at)) + '</dd></div>' +
         '<div><dt class="text-sm font-semibold text-ink-soft">Last updated</dt><dd>' + UI.escapeHtml(UI.formatDate(user.updated_at)) + '</dd></div>' +
       '</dl>' +
-      '<div class="mt-8 border-t border-mist pt-6">' +
+      '<div class="mt-8 border-t border-line pt-6">' +
         '<h2 id="account-heading" tabindex="-1" class="mb-2 text-2xl font-bold">Account access</h2>' +
         accountActionHtml(user) +
       '</div>' +
@@ -83,7 +83,7 @@ function changeAccess(action) {
 
 function showUserNotFound() {
   $('#user-content').html(
-    '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+    '<div class="rounded-card border border-line bg-white p-8 text-center">' +
       '<h1 class="mb-2 text-[1.75rem] font-extrabold">We couldn\'t find that user</h1>' +
       '<p class="mb-4 text-ink-soft">The link may be missing part of its address.</p>' +
       '<a href="users.html" class="btn btn-primary">See all users</a>' +

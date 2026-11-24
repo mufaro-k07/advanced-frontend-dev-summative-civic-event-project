@@ -79,7 +79,7 @@ function renderSummary(total, firstShown, lastShown) {
 
 function renderNoMatches() {
   $('#event-list').html(
-    '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+    '<div class="rounded-card border border-line bg-white p-8 text-center">' +
       '<h2 class="mb-2 text-lg font-bold">No events match your search</h2>' +
       '<p class="mb-4 text-ink-soft">Try a different word, or look at all events instead.</p>' +
       '<button type="button" id="clear-filters" class="btn btn-secondary">Clear search and filters</button>' +

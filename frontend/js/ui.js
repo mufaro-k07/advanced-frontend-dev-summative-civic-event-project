@@ -249,7 +249,7 @@ const UI = {
     let html = '<div aria-busy="true" aria-label="Loading" class="grid gap-4">';
     for (let i = 0; i < howMany; i++) {
       html +=
-        '<div class="animate-pulse rounded-card bg-white p-5 shadow-sm">' +
+        '<div class="animate-pulse rounded-card border border-line bg-white p-5">' +
           '<div class="mb-3 h-4 w-1/3 rounded bg-mist"></div>' +
           '<div class="mb-2 h-3 w-full rounded bg-mist"></div>' +
           '<div class="h-3 w-2/3 rounded bg-mist"></div>' +
@@ -261,7 +261,7 @@ const UI = {
 
   showEmpty: function ($container, title, nextStep) {
     $container.html(
-      '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+      '<div class="rounded-card border border-line bg-white p-8 text-center">' +
         '<h3 class="mb-2 text-lg font-bold">' + UI.escapeHtml(title) + '</h3>' +
         '<p class="text-ink-soft">' + UI.escapeHtml(nextStep) + '</p>' +
       '</div>'
@@ -271,7 +271,7 @@ const UI = {
   // Shows what went wrong plus a Retry button that runs onRetry
   showError: function ($container, message, onRetry) {
     $container.html(
-      '<div role="alert" class="rounded-card border border-error bg-white p-6 shadow-sm">' +
+      '<div role="alert" class="rounded-card border border-error bg-white p-6">' +
         '<p class="mb-4 flex items-start gap-2 text-error">' + UI.icons.error +
           '<span><strong>Error:</strong> ' + UI.escapeHtml(message) + '</span></p>' +
         '<button type="button" class="js-retry min-h-11 rounded-control border-2 border-lily-teal bg-white px-4 font-semibold text-lily-teal transition-colors duration-150 hover:bg-mist">Try again</button>' +

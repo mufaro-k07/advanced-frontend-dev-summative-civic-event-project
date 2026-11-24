@@ -18,12 +18,12 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../dist/output.css">
 </head>
 <body class="flex min-h-screen flex-col">
   <a href="#main" class="skip-link">Skip to content</a>
-  <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+  <div id="site-header" class="min-h-[61px] border-b border-line bg-white"></div>
 
   <main id="main" tabindex="-1" class="mx-auto w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
     <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Your profile</h1>
@@ -34,7 +34,7 @@
         <div id="form-error" role="alert" class="mb-6 hidden rounded-control border border-error bg-white p-4 text-error"></div>
         <div id="profile-loading"></div>
 
-        <form id="profile-form" class="card-border hidden rounded-panel border border-mist bg-white p-6 shadow-sm" novalidate>
+        <form id="profile-form" class="card-border hidden rounded-panel border border-line bg-white p-6" novalidate>
           <div class="mb-5">
             <label for="full-name" class="field-label">Full name</label>
             <input id="full-name" type="text" autocomplete="name" required maxlength="150" aria-describedby="full-name-error" class="field-input">
@@ -50,7 +50,7 @@
         </form>
       </div>
 
-      <aside aria-labelledby="account-heading" class="card-border h-fit rounded-panel border border-mist bg-white p-6 shadow-sm">
+      <aside aria-labelledby="account-heading" class="card-border h-fit rounded-panel border border-line bg-white p-6">
         <h2 id="account-heading" class="mb-4 text-2xl font-bold">Your account</h2>
         <dl id="account-details" class="grid gap-3"></dl>
         <p class="mt-6 text-sm text-ink-soft">Looking for bigger text or more contrast? Use the <strong>Accessibility</strong> button at the top of any page.</p>

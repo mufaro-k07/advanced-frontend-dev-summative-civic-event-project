@@ -56,7 +56,7 @@ const Player = {
   // The big player for the detail page
   fullHtml: function (announcement) {
     const uid = 'player-' + announcement.id;
-    return '<div class="js-player card-border rounded-panel border border-mist bg-white p-5 shadow-sm md:p-6" data-label="announcement">' +
+    return '<div class="js-player card-border rounded-panel border border-line bg-white p-5 md:p-6" data-label="announcement">' +
         '<audio preload="metadata" src="' + UI.escapeHtml(announcement.audio_url) + '"></audio>' +
         '<div class="flex items-center gap-4">' +
           '<button type="button" class="js-play flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-lily-teal text-white transition-colors duration-150 hover:bg-teal-deep" aria-label="Play announcement">' + Player.PLAY_ICON + '</button>' +
@@ -87,7 +87,7 @@ const Player = {
   // The small player for each card on the list page.
   // extraHtml is anything else the card needs, like admin badges and buttons.
   compactHtml: function (announcement, extraHtml) {
-    return '<article class="js-player card-border flex flex-col gap-4 rounded-card border border-mist bg-white p-5 shadow-sm sm:flex-row sm:items-center" data-label="' + UI.escapeHtml(announcement.title) + '">' +
+    return '<article class="js-player card-border flex flex-col gap-4 rounded-card border border-line bg-white p-5 sm:flex-row sm:items-center" data-label="' + UI.escapeHtml(announcement.title) + '">' +
         '<audio preload="metadata" src="' + UI.escapeHtml(announcement.audio_url) + '"></audio>' +
         '<button type="button" class="js-play flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-lily-teal text-white transition-colors duration-150 hover:bg-teal-deep" aria-label="Play ' + UI.escapeHtml(announcement.title) + '">' + Player.PLAY_ICON + '</button>' +
         '<div class="min-w-0 flex-1">' +

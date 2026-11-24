@@ -27,7 +27,7 @@ function adminPanelHtml() {
 function renderNotification(notification) {
   document.title = notification.title + ' · Sunshine 263';
   $('#notification-content').html(
-    '<article class="card-border rounded-panel border border-mist bg-white p-6 shadow-sm">' +
+    '<article class="card-border rounded-panel border border-line bg-white p-6">' +
       '<p class="mb-2 text-[0.8125rem] font-semibold tracking-wide text-ink-soft uppercase">' + UI.escapeHtml(Layout.notificationTypeLabel(notification)) + '</p>' +
       '<h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">' + UI.escapeHtml(notification.title) + '</h1>' +
       '<p class="mt-1 text-sm text-ink-soft">Sent ' + UI.escapeHtml(UI.formatDate(notification.created_at)) + ' at ' + UI.escapeHtml(UI.formatTime(notification.created_at)) + '</p>' +
@@ -64,7 +64,7 @@ function deleteNotification() {
 
 function showNotFound() {
   $('#notification-content').html(
-    '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+    '<div class="rounded-card border border-line bg-white p-8 text-center">' +
       '<h1 class="mb-2 text-[1.75rem] font-extrabold">We couldn\'t find that notification</h1>' +
       '<p class="mb-4 text-ink-soft">It may have been deleted, or the link is missing part of its address.</p>' +
       '<a href="notifications.html" class="btn btn-primary">See all notifications</a>' +

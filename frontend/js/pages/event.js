@@ -26,7 +26,7 @@ function eventPageHtml(event) {
       '</article>' +
 
       '<aside aria-labelledby="details-heading" class="lg:sticky lg:top-6 lg:self-start">' +
-        '<div class="card-border rounded-panel border border-mist bg-white p-6 shadow-sm">' +
+        '<div class="card-border rounded-panel border border-line bg-white p-6">' +
           '<h2 id="details-heading" class="mb-4 text-2xl font-bold">Details</h2>' +
           '<dl class="grid gap-4">' +
             '<div><dt class="text-sm font-semibold text-ink-soft">When</dt><dd>' + UI.escapeHtml(Cards.eventWhenText(event)) + '</dd></div>' +
@@ -36,7 +36,7 @@ function eventPageHtml(event) {
             'Open in Google Maps<span class="sr-only"> (opens in a new tab)</span>' +
             '<svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 1 0 0 2h2.59l-6.3 6.29a1 1 0 1 0 1.42 1.42L15 6.41V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5Z"/><path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 0 0 0-2H5Z"/></svg>' +
           '</a>' +
-          '<div id="registration-box" class="mt-6 border-t border-mist pt-6"></div>' +
+          '<div id="registration-box" class="mt-6 border-t border-line pt-6"></div>' +
         '</div>' +
       '</aside>' +
     '</div>' +
@@ -176,7 +176,7 @@ function starsHtml(rating) {
 }
 
 function feedbackSummaryHtml(feedback) {
-  return '<div class="card-border rounded-card border border-mist bg-white p-5 shadow-sm">' +
+  return '<div class="card-border rounded-card border border-line bg-white p-5">' +
       '<p class="mb-1 text-sm font-semibold text-ink-soft">Your feedback</p>' +
       '<p class="mb-2 flex items-center gap-2">' + starsHtml(feedback.rating) + '<span>' + feedback.rating + ' out of 5</span></p>' +
       (feedback.comment ? '<p class="whitespace-pre-line">' + UI.escapeHtml(feedback.comment) + '</p>' : '<p class="text-ink-soft">No comment added.</p>') +
@@ -209,7 +209,7 @@ function feedbackFormHtml(existing) {
   const buttonLabel = existing ? 'Save changes' : 'Send feedback';
 
   return '<p class="mb-4 text-ink-soft">Went along? Tell the organisers how it went. Only the city team sees your feedback.</p>' +
-    '<form id="feedback-form" class="card-border rounded-panel border border-mist bg-white p-6 shadow-sm" novalidate>' +
+    '<form id="feedback-form" class="card-border rounded-panel border border-line bg-white p-6" novalidate>' +
       '<fieldset class="mb-5" aria-describedby="rating-hint rating-error">' +
         '<legend class="field-label">Your rating</legend>' +
         '<p id="rating-hint" class="field-hint mb-2">1 is poor, 5 is excellent.</p>' +
@@ -340,7 +340,7 @@ function renderAttendees(attendees) {
     $('#attendees').html('<p class="text-ink-soft">No one has registered yet.</p>');
     return;
   }
-  let html = '<ul class="divide-y divide-mist rounded-card border border-mist">';
+  let html = '<ul class="divide-y divide-line rounded-card border border-line">';
   for (let i = 0; i < attendees.length; i++) {
     html += '<li class="px-4 py-3">' +
         '<p class="font-semibold">' + UI.escapeHtml(attendees[i].full_name) + '</p>' +
@@ -365,7 +365,7 @@ function renderEventFeedback(feedbackList) {
     return;
   }
   let html = '<p class="mb-3 font-semibold">Average ' + averageRating(feedbackList) + ' out of 5</p>' +
-    '<ul class="divide-y divide-mist rounded-card border border-mist">';
+    '<ul class="divide-y divide-line rounded-card border border-line">';
   for (let i = 0; i < feedbackList.length; i++) {
     const item = feedbackList[i];
     html += '<li class="px-4 py-3">' +
@@ -433,7 +433,7 @@ function showAdminPanel() {
 
 function showNotFound() {
   $('#event-content').html(
-    '<div class="rounded-card bg-white p-8 text-center shadow-sm">' +
+    '<div class="rounded-card border border-line bg-white p-8 text-center">' +
       '<h1 class="mb-2 text-[1.75rem] font-extrabold">We couldn\'t find that event</h1>' +
       '<p class="mb-4 text-ink-soft">It may have been removed, or the link is missing part of its address.</p>' +
       '<a href="events.html" class="btn btn-primary">See all events</a>' +
