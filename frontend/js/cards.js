@@ -27,6 +27,98 @@ const Cards = {
       '</div>';
   },
 
+  // The same status always gets the same colour, and always has a word, never colour alone
+  BADGES: {
+    registered: { label: 'Registered', className: 'bg-lily-teal text-white' },
+    cancelled: { label: 'Cancelled', className: 'border border-ink-soft bg-white text-ink-soft' },
+    ended: { label: 'Ended', className: 'bg-mist text-ink' },
+    published: { label: 'Published', className: 'bg-success text-white' },
+    draft: { label: 'Draft', className: 'bg-sunshine text-ink' },
+    active: { label: 'Active', className: 'bg-success text-white' },
+    disabled: { label: 'Disabled', className: 'bg-error text-white' },
+    admin: { label: 'Admin', className: 'bg-teal-deep text-white' },
+    user: { label: 'Resident', className: 'bg-mist text-ink' }
+  },
+
+  // The dashed box admins see on resident pages, holding the extra tools only they get
+  adminPanelHtml: function (headingId, heading, innerHtml) {
+    return '<section aria-labelledby="' + headingId + '" class="mt-12 rounded-panel border-2 border-dashed border-lily-teal bg-white p-6">' +
+        '<p class="mb-2"><span class="inline-flex rounded-full bg-sunshine px-2.5 py-0.5 text-[0.8125rem] font-bold text-ink">Admin only</span></p>' +
+        '<h2 id="' + headingId + '" tabindex="-1" class="mb-4 text-2xl font-bold">' + heading + '</h2>' +
+        innerHtml +
+      '</section>';
+  },
+
+  badgeHtml: function (status) {
+    const badge = Cards.BADGES[status];
+    if (!badge) {
+      return '';
+    }
+    return '<span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.8125rem] font-semibold ' + badge.className + '">' + badge.label + '</span>';
+  },
+
+  hasEnded: function (event) {
+    const end = event.ends_at || event.starts_at;
+    return new Date(end).getTime() < Date.now();
+  },
+
+  // "Sat 28 Nov 2026, 08:00 to 14:00", or both dates if it runs over more than one day
+  eventWhenText: function (event) {
+    const start = UI.formatDate(event.starts_at) + ', ' + UI.formatTime(event.starts_at);
+    if (!event.ends_at) {
+      return start;
+    }
+    const sameDay = new Date(event.starts_at).toDateString() === new Date(event.ends_at).toDateString();
+    if (sameDay) {
+      return start + ' to ' + UI.formatTime(event.ends_at);
+    }
+    return start + ' to ' + UI.formatDate(event.ends_at) + ', ' + UI.formatTime(event.ends_at);
+  },
+
+  // The uploaded photo, or a soft flame placeholder when there isn't one.
+  // There's no alt text field in the backend, so the alt names the event.
+  eventImageHtml: function (event, sizeClass) {
+    const imageUrl = event.metadata && event.metadata.image_url;
+    if (imageUrl) {
+      return '<img src="' + UI.escapeHtml(imageUrl) + '" alt="Photo for ' + UI.escapeHtml(event.title) + '" class="w-full object-cover ' + sizeClass + '">';
+    }
+    return '<div aria-hidden="true" class="flame-gradient flex w-full items-center justify-center opacity-90 ' + sizeClass + '">' +
+        '<svg class="h-12 w-12 text-white/80" viewBox="0 0 40 40" fill="currentColor">' +
+          '<ellipse cx="20" cy="10" rx="5" ry="9"/><ellipse cx="20" cy="10" rx="5" ry="9" transform="rotate(60 20 20)"/>' +
+          '<ellipse cx="20" cy="10" rx="5" ry="9" transform="rotate(120 20 20)"/><ellipse cx="20" cy="10" rx="5" ry="9" transform="rotate(180 20 20)"/>' +
+          '<ellipse cx="20" cy="10" rx="5" ry="9" transform="rotate(240 20 20)"/><ellipse cx="20" cy="10" rx="5" ry="9" transform="rotate(300 20 20)"/>' +
+        '</svg>' +
+      '</div>';
+  },
+
+  // Bigger card for the events list: photo on top, date block and details underneath.
+  // status is 'registered', 'cancelled' or empty, from the person's own registrations.
+  eventListCardHtml: function (event, status) {
+    const href = Config.pageUrl('pages/event.html?id=' + encodeURIComponent(event.id));
+    let badges = '';
+    if (Cards.hasEnded(event)) {
+      badges += Cards.badgeHtml('ended');
+    }
+    if (status) {
+      badges += Cards.badgeHtml(status);
+    }
+
+    return '<article class="card-border flex flex-col overflow-hidden rounded-card border border-mist bg-white shadow-sm">' +
+        Cards.eventImageHtml(event, 'h-40') +
+        '<div class="flex flex-1 gap-4 p-5">' +
+          Cards.dateBlockHtml(event.starts_at) +
+          '<div class="min-w-0 flex-1">' +
+            (badges ? '<div class="mb-2 flex flex-wrap gap-2">' + badges + '</div>' : '') +
+            '<h3 class="text-lg font-bold">' +
+              '<a href="' + href + '" class="rounded-control hover:underline">' + UI.escapeHtml(event.title) + '</a>' +
+            '</h3>' +
+            '<p class="text-sm text-ink-soft">' + UI.escapeHtml(Cards.eventWhenText(event)) + '</p>' +
+            '<p class="text-sm text-ink-soft">' + UI.escapeHtml(event.location || 'Location to be confirmed') + '</p>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  },
+
   eventCardHtml: function (event) {
     const href = Config.pageUrl('pages/event.html?id=' + encodeURIComponent(event.id));
     return '<article class="' + Cards.SHELL_CLASS + ' flex gap-4">' +

@@ -129,6 +129,55 @@ const UI = {
     $container.off('keydown.trap');
   },
 
+  // A yes/no pop-up for things that are hard to undo, like cancelling or deleting.
+  // options: title, message, confirmLabel, cancelLabel (optional), destructive (true makes the button red)
+  confirm: function (options, onConfirm) {
+    const $trigger = $(document.activeElement);
+    const confirmClass = options.destructive ? 'btn-danger' : 'btn-primary';
+    const $backdrop = $(
+      '<div class="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4">' +
+        '<div role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message" class="w-full max-w-md rounded-panel bg-white p-6 shadow-sm">' +
+          '<h2 id="confirm-title" class="text-2xl font-bold">' + UI.escapeHtml(options.title) + '</h2>' +
+          '<p id="confirm-message" class="mt-2 text-ink-soft">' + UI.escapeHtml(options.message) + '</p>' +
+          '<div class="mt-6 flex flex-wrap justify-end gap-3">' +
+            '<button type="button" class="js-cancel btn btn-secondary">' + UI.escapeHtml(options.cancelLabel || 'Go back') + '</button>' +
+            '<button type="button" class="js-confirm btn ' + confirmClass + '">' + UI.escapeHtml(options.confirmLabel) + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+    const $dialog = $backdrop.find('[role="dialog"]');
+
+    function close() {
+      UI.releaseFocus($dialog);
+      $backdrop.remove();
+      $('body').removeClass('overflow-hidden');
+      $trigger.trigger('focus');
+    }
+
+    $backdrop.find('.js-cancel').on('click', close);
+    $backdrop.find('.js-confirm').on('click', function () {
+      close();
+      onConfirm();
+    });
+    // A click on the dark area outside the box counts as "go back"
+    $backdrop.on('click', function (event) {
+      if (event.target === $backdrop[0]) {
+        close();
+      }
+    });
+    $dialog.on('keydown', function (event) {
+      if (event.key === 'Escape') {
+        close();
+      }
+    });
+
+    $('body').append($backdrop).addClass('overflow-hidden');
+    UI.trapFocus($dialog);
+    // Start on the safe choice, so a quick Enter doesn't cancel or delete anything
+    $backdrop.find('.js-cancel').trigger('focus');
+  },
+
   // "Sat 28 Nov 2026"
   formatDate: function (isoString) {
     return new Date(isoString).toLocaleDateString('en-GB', {
@@ -161,6 +210,27 @@ const UI = {
       return days + (days === 1 ? ' day ago' : ' days ago');
     }
     return UI.formatDate(isoString);
+  },
+
+  // A toast that waits for the next page, e.g. "Event saved" after the form sends you to the event
+  setFlash: function (message, type) {
+    try {
+      window.sessionStorage.setItem('sunshine_flash', JSON.stringify({ message: message, type: type }));
+    } catch (err) {
+      // Without storage the message is just skipped
+    }
+  },
+
+  showFlash: function () {
+    try {
+      const saved = JSON.parse(window.sessionStorage.getItem('sunshine_flash'));
+      window.sessionStorage.removeItem('sunshine_flash');
+      if (saved && saved.message) {
+        UI.toast(saved.message, saved.type);
+      }
+    } catch (err) {
+      // Nothing to show
+    }
   },
 
   // Grey placeholder cards while a list is loading
