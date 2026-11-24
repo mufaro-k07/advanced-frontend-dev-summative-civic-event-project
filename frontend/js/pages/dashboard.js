@@ -2,156 +2,24 @@
 
 const JACARANDA_KEY = 'sunshine_jacaranda_closed';
 
-// Greeting in Shona by the time of day on the person's own device, with the English underneath
+// Greeting by the time of day on the person's own device
 function greetingForNow() {
   const hour = new Date().getHours();
   if (hour < 12) {
-    return { shona: 'Mangwanani', english: 'Good morning' };
+    return 'Good morning';
   }
   if (hour < 17) {
-    return { shona: 'Masikati', english: 'Good afternoon' };
+    return 'Good afternoon';
   }
-  return { shona: 'Manheru', english: 'Good evening' };
+  return 'Good evening';
 }
 
 function showWelcome() {
   const user = Auth.getUser();
-  const greeting = greetingForNow();
-  // "Thursday 26 November"
-  $('#today-date').text(new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }));
-  $('#shona-greeting').text(greeting.shona);
-  $('#english-greeting').text(greeting.english);
+  $('#greeting').text(greetingForNow());
   if (user && user.full_name) {
     $('#first-name').text(user.full_name.split(' ')[0]);
   }
-}
-
-// "Your week" panel: three rows, each one a link with its own loading and error state
-
-function weekRowHtml(href, label, value, linkText) {
-  return '<a href="' + href + '" class="group flex min-h-11 items-center justify-between gap-3 py-3">' +
-      '<span class="min-w-0">' +
-        '<span class="block text-[0.8125rem] font-semibold text-ink-soft">' + label + '</span>' +
-        '<span class="block font-semibold text-ink group-hover:text-lily-teal group-hover:underline">' + value + '</span>' +
-      '</span>' +
-      '<span class="shrink-0 text-sm font-semibold text-lily-teal">' + linkText + ' <span aria-hidden="true">→</span></span>' +
-    '</a>';
-}
-
-function showWeekRowLoading($row, label) {
-  $row.html(
-    '<div class="py-3">' +
-      '<span class="block text-[0.8125rem] font-semibold text-ink-soft">' + label + '</span>' +
-      '<span aria-hidden="true" class="mt-1 block h-5 w-2/3 animate-pulse rounded bg-mist"></span>' +
-      '<span class="sr-only">Loading</span>' +
-    '</div>'
-  );
-}
-
-function showWeekRowError($row, label, retry) {
-  $row.html(
-    '<div class="py-3">' +
-      '<span class="block text-[0.8125rem] font-semibold text-ink-soft">' + label + '</span>' +
-      '<p role="alert" class="flex flex-wrap items-center gap-x-2 text-sm text-error">' + UI.icons.error +
-        "<span><strong>Error:</strong> this didn't load.</span>" +
-        '<button type="button" class="js-retry min-h-11 font-semibold text-lily-teal underline underline-offset-2">Retry</button>' +
-      '</p>' +
-    '</div>'
-  );
-  $row.find('.js-retry').on('click', retry);
-}
-
-// The soonest event you're registered for that hasn't started yet, or null
-function nextRegisteredEvent(registrations) {
-  const now = Date.now();
-  let next = null;
-  for (let i = 0; i < registrations.length; i++) {
-    const registration = registrations[i];
-    const startsAt = new Date(registration.starts_at).getTime();
-    if (registration.status === 'registered' && startsAt > now) {
-      if (!next || startsAt < new Date(next.starts_at).getTime()) {
-        next = registration;
-      }
-    }
-  }
-  return next;
-}
-
-function loadWeekEvent() {
-  const $row = $('#week-event');
-  showWeekRowLoading($row, 'Next event');
-
-  Api.get('/event-registrations/my-registrations')
-    .done(function (response) {
-      const next = nextRegisteredEvent(response.data || []);
-      if (!next) {
-        $row.html(weekRowHtml('events.html', 'Next event', 'Nothing booked yet', 'Browse events'));
-        return;
-      }
-      const when = UI.formatDate(next.starts_at) + ' · ' + UI.formatTime(next.starts_at);
-      $row.html(weekRowHtml(
-        'event.html?id=' + encodeURIComponent(next.event_id),
-        'Next event',
-        UI.escapeHtml(next.title) + '<span class="block text-sm font-normal text-ink-soft">' + UI.escapeHtml(when) + '</span>',
-        'View'
-      ));
-    })
-    .fail(function () {
-      showWeekRowError($row, 'Next event', loadWeekEvent);
-    });
-}
-
-// The header has already asked for the notifications, so we wait for that answer instead of asking again
-function showWeekUnread() {
-  const unread = Layout.countUnread(Layout.notifications);
-  const value = unread === 0 ? 'None unread' : unread + ' unread';
-  $('#week-unread').html(weekRowHtml('notifications.html', 'Unread notifications', value, 'Open'));
-}
-
-function loadWeekUnread() {
-  showWeekRowLoading($('#week-unread'), 'Unread notifications');
-  Layout.notificationsRequest
-    .done(showWeekUnread)
-    .fail(function () {
-      showWeekRowError($('#week-unread'), 'Unread notifications', retryWeekUnread);
-    });
-}
-
-function retryWeekUnread() {
-  Layout.loadNotifications();
-  loadWeekUnread();
-}
-
-// Open means submitted or in progress, so anything not resolved yet
-function countOpenRequests(requests) {
-  let count = 0;
-  for (let i = 0; i < requests.length; i++) {
-    if (requests[i].status === 'submitted' || requests[i].status === 'in_progress') {
-      count++;
-    }
-  }
-  return count;
-}
-
-function loadWeekRequests() {
-  const $row = $('#week-requests');
-  showWeekRowLoading($row, 'Service requests');
-
-  Api.get('/service-requests/my')
-    .done(function (response) {
-      const open = countOpenRequests(response.data || []);
-      const value = open === 0 ? 'None open' : open + ' open';
-      $row.html(weekRowHtml('services.html', 'Service requests', value, 'Open'));
-    })
-    .fail(function () {
-      showWeekRowError($row, 'Service requests', loadWeekRequests);
-    });
-}
-
-function loadYourWeek() {
-  loadWeekEvent();
-  loadWeekUnread();
-  loadWeekRequests();
 }
 
 // Jacaranda banner
@@ -316,10 +184,6 @@ if (Guards.requireAuth()) {
   Layout.init({ page: 'dashboard', area: 'resident' });
   showWelcome();
   showJacarandaBanner();
-  loadYourWeek();
   loadDashboard();
-  $(document).on('notifications:read', function () {
-    updateUnreadStat();
-    showWeekUnread();
-  });
+  $(document).on('notifications:read', updateUnreadStat);
 }

@@ -18,7 +18,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../dist/output.css">
 </head>
 <body class="flex min-h-screen flex-col">
@@ -30,25 +30,37 @@
     <!-- Exam-season note, only in October and November. dashboard.js decides. -->
     <div id="jacaranda-banner" class="hidden"></div>
 
-    <!-- Welcome: date and greeting on the left, "Your week" on the right. They stack on phones. -->
-    <section aria-labelledby="welcome-heading" class="mb-10 flex flex-wrap items-start gap-8 border-b border-line pb-10">
-      <div class="max-w-full flex-[999_1_420px]">
-        <p id="today-date" class="text-[0.8125rem] font-bold tracking-[0.1em] text-ink-soft uppercase"></p>
-        <h1 id="welcome-heading" class="mt-3 text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.02em] md:text-[3.5rem]">
-          <span id="shona-greeting" lang="sn">Mhoro</span>, <span id="first-name">neighbour</span>.
-          <span id="english-greeting" class="mt-2 block font-body text-lg font-normal tracking-normal text-ink-soft">Hello</span>
-        </h1>
-        <p class="mt-4 text-lg">Here's what Harare is up to this week.</p>
+    <!-- Greeting by the time of day. dashboard.js fills in the words and the first name. -->
+    <div class="mb-6">
+      <h1 id="welcome-heading" class="text-[1.75rem] font-extrabold md:text-[2rem]">
+        <span id="greeting">Hello</span>, <span id="first-name">neighbour</span>
+      </h1>
+      <p class="mt-1 text-lg text-ink-soft">Ready to see what's happening around you?</p>
+    </div>
+
+    <!-- Hero: words and button on the left, the telephone and noticeboard on the right.
+         To change it later, edit the text here or swap the picture. The fade-in lives in input.css (hero-rise). -->
+    <section aria-labelledby="hero-heading" class="on-dark relative mb-10 rounded-panel bg-lily-teal text-white md:min-h-[320px] lg:min-h-[380px]">
+      <div class="relative z-10 flex flex-col items-start justify-center px-6 pt-8 pb-2 md:min-h-[320px] md:w-[55%] md:py-10 md:pr-4 md:pl-10 lg:min-h-[380px] lg:py-14 lg:pl-12">
+        <h2 id="hero-heading" class="hero-rise font-heading text-[2.75rem] leading-[0.95] font-extrabold tracking-[-0.03em] text-white md:text-[3.25rem] lg:text-[4.25rem]">
+          Harare is <span class="font-accent font-normal tracking-normal text-sunshine italic">calling.</span>
+        </h2>
+        <p class="hero-rise hero-rise-2 mt-4 max-w-md text-lg leading-relaxed text-mist">From local events to everyday services, your community is closer than you think.</p>
+        <a href="events.html" class="hero-rise hero-rise-3 btn group mt-7 min-h-12 gap-2.5 bg-sunshine px-6 text-base font-bold text-ink transition duration-200 hover:bg-[#F7C34F] hover:shadow-[0_6px_16px_rgb(0_0_0/0.25)]">
+          Explore Harare <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+        </a>
       </div>
 
-      <div class="max-w-full flex-[1_1_320px] rounded-card border border-line bg-white px-5 py-4">
-        <h2 class="font-heading text-lg font-bold">Your week</h2>
-        <!-- Each row loads on its own, so one slow or broken request doesn't hold up the others -->
-        <ul class="mt-1 divide-y divide-line">
-          <li id="week-event"></li>
-          <li id="week-unread"></li>
-          <li id="week-requests"></li>
-        </ul>
+      <!-- The artwork hangs from the top edge and pokes out a little at the top and right.
+           It's one picture (phone and board together), so it only fades in, it never swings.
+           width and height keep its space reserved while it loads, so nothing jumps. -->
+      <div class="hero-art relative mx-auto w-full max-w-[440px] px-6 pb-6 md:absolute md:-top-2 md:-right-4 md:w-[45%] md:max-w-none md:px-0 md:pb-0">
+        <p class="absolute top-[7%] left-6 w-[26%] font-accent text-lg leading-tight text-sunshine italic md:left-0 md:text-base lg:text-[1.375rem]">Your city has plans for you.</p>
+        <picture>
+          <source srcset="../assets/images/hero-noticeboard.webp" type="image/webp">
+          <img src="../assets/images/hero-noticeboard.png" width="1100" height="716" alt="" aria-hidden="true"
+               class="block h-auto w-full drop-shadow-[0_10px_14px_rgb(0_0_0/0.25)]">
+        </picture>
       </div>
     </section>
 
