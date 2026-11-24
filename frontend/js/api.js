@@ -2,7 +2,7 @@
 // expired logins, forbidden pages and a server that isn't running.
 // Every method returns the jQuery request, so pages can chain .done() and .fail().
 const Api = {
-  request: function (method, path, body, isFormData) {
+  request: function (method, path, body, isFormData, onProgress) {
     // Login and signup don't need a token, and an old expired one would only confuse things
     const isAuthRoute = path.indexOf('/auth/') === 0;
     const token = isAuthRoute ? null : Auth.getToken();
@@ -25,6 +25,21 @@ const Api = {
     } else if (body) {
       settings.data = JSON.stringify(body);
       settings.contentType = 'application/json';
+    }
+
+    // Big uploads (audio, video) report how far along they are, so the form can show a progress bar
+    if (onProgress) {
+      settings.xhr = function () {
+        const xhr = $.ajaxSettings.xhr();
+        if (xhr.upload) {
+          xhr.upload.addEventListener('progress', function (event) {
+            if (event.lengthComputable) {
+              onProgress(Math.round((event.loaded / event.total) * 100));
+            }
+          });
+        }
+        return xhr;
+      };
     }
 
     const request = $.ajax(settings);
@@ -54,9 +69,10 @@ const Api = {
     return Api.request('DELETE', path);
   },
 
-  // For forms with a file (event image, announcement audio, promo video)
-  upload: function (method, path, formData) {
-    return Api.request(method, path, formData, true);
+  // For forms with a file (event image, announcement audio, promo video).
+  // onProgress is optional and gets a number from 0 to 100.
+  upload: function (method, path, formData, onProgress) {
+    return Api.request(method, path, formData, true, onProgress);
   },
 
   handleAuthErrors: function (xhr, sentToken) {

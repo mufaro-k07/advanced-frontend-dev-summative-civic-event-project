@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add an announcement · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <div class="min-h-screen md:flex">
+    <div id="admin-sidebar" class="bg-teal-deep md:w-[248px]"></div>
+
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+
+      <main id="main" tabindex="-1" class="w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
+        <h1 id="form-heading" class="text-[1.75rem] font-extrabold md:text-[2rem]">Add an announcement</h1>
+        <p id="form-intro" class="mt-1 mb-6 text-ink-soft">Record a short update, upload it here, and residents can listen straight away.</p>
+
+        <div id="form-error" role="alert" class="mb-6 hidden max-w-2xl rounded-control border border-error bg-white p-4 text-error"></div>
+        <div id="form-loading"></div>
+
+        <form id="announcement-form" class="card-border max-w-2xl rounded-panel border border-mist bg-white p-6 shadow-sm" novalidate>
+          <div class="mb-5">
+            <label for="title" class="field-label">Title</label>
+            <input id="title" type="text" required maxlength="150" aria-describedby="title-error" class="field-input">
+            <p id="title-error" class="field-error hidden" aria-live="polite"></p>
+          </div>
+
+          <!-- Only on new announcements. The backend can't swap the audio on an existing one. -->
+          <div id="audio-field" class="mb-5">
+            <label for="audio" class="field-label">Audio recording</label>
+            <input id="audio" type="file" accept=".mp3,.wav,.m4a,.ogg,audio/*"
+                   aria-describedby="audio-hint audio-error"
+                   class="block w-full text-sm file:mr-4 file:min-h-11 file:cursor-pointer file:rounded-control file:border-2 file:border-lily-teal file:bg-white file:px-4 file:font-semibold file:text-lily-teal hover:file:bg-mist">
+            <p id="audio-hint" class="field-hint">MP3, WAV, M4A or OGG, up to 5 MB. A voice memo from your phone works well.</p>
+            <p id="audio-error" class="field-error hidden" aria-live="polite"></p>
+            <div id="audio-preview" class="mt-3"></div>
+          </div>
+
+          <p id="audio-locked-note" class="mb-5 hidden rounded-control bg-mist p-4 text-sm">The recording can't be changed after upload. To use a different one, delete this announcement and add a new one.</p>
+
+          <div class="mb-6">
+            <label class="inline-flex min-h-11 cursor-pointer items-center gap-3">
+              <input id="published" type="checkbox" checked class="h-5 w-5 accent-lily-teal">
+              <span class="font-semibold">Published</span>
+            </label>
+            <p class="field-hint">Untick to keep it as a draft. Drafts are only visible to admins.</p>
+          </div>
+
+          <!-- Shown while the file uploads -->
+          <div id="upload-progress" class="mb-5 hidden">
+            <label for="progress-bar" class="field-label">Uploading</label>
+            <progress id="progress-bar" max="100" value="0" class="h-3 w-full accent-lily-teal"></progress>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button type="submit" id="save-button" class="btn btn-primary"><span class="js-button-label">Save announcement</span></button>
+            <a id="cancel-link" href="../pages/announcements.html" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </main>
+
+      <div id="site-footer"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/validate.js"></script>
+  <script src="../js/pages/announcement-form.js"></script>
+</body>
+</html>
