@@ -48,7 +48,7 @@ const Layout = {
 
   logoHtml: function (homeHref, isLight) {
     const wordmark = isLight ? 'logo-wordmark-light.svg' : 'logo-wordmark.svg';
-    return '<a href="' + Config.pageUrl(homeHref) + '" aria-label="Sunshine 263 home" class="inline-flex shrink-0 items-center gap-2 rounded-control">' +
+    return '<a href="' + Config.pageUrl(homeHref) + '" aria-label="Sunshine 263 home" class="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-control">' +
         '<img src="' + Config.pageUrl('assets/images/flame-lily.jpg') + '" alt="" aria-hidden="true" class="h-9 w-9 rounded-full object-cover ring-2 ring-sunshine">' +
         '<img src="' + Config.pageUrl('assets/icons/' + wordmark) + '" alt="" aria-hidden="true" class="h-6 w-auto">' +
       '</a>';
@@ -131,18 +131,19 @@ const Layout = {
     const mobileLinkClass = 'flex min-h-11 items-center rounded-control border-l-4 border-transparent px-3 font-semibold text-ink hover:bg-mist aria-[current=page]:border-flame aria-[current=page]:bg-mist';
 
     return '<header class="border-b border-mist bg-white">' +
-        '<div class="mx-auto flex max-w-[1200px] items-center gap-3 px-4 py-2 md:px-8">' +
+        // flex-wrap lets the row break onto two lines at very large text instead of spilling off the side
+        '<div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-3 px-4 py-2 md:px-8">' +
           Layout.logoHtml('pages/dashboard.html', false) +
-          '<nav aria-label="Main" class="ml-6 hidden lg:block"><ul class="flex gap-5">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
+          '<nav aria-label="Main" class="ml-4 hidden xl:block"><ul class="flex gap-4">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
           '<div class="ml-auto flex items-center gap-1 sm:gap-2">' +
             '<div id="a11y-slot"></div>' +
             Layout.bellHtml() +
-            Layout.profileMenuHtml('hidden lg:block') +
-            Layout.menuButtonHtml('lg:hidden') +
+            Layout.profileMenuHtml('hidden xl:block') +
+            Layout.menuButtonHtml('xl:hidden') +
           '</div>' +
         '</div>' +
-        // On phones the links, profile and log out live in this menu instead
-        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-mist px-4 py-3 lg:hidden">' +
+        // On phones and tablets the links, profile and log out live in this menu instead
+        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-mist px-4 py-3 xl:hidden">' +
           '<ul class="grid gap-1">' + Layout.navLinksHtml(links, currentPage, mobileLinkClass) +
             '<li class="mt-2 border-t border-mist pt-2"><a href="' + Config.pageUrl('pages/profile.html') + '" class="' + mobileLinkClass + '">Your profile</a></li>' +
             '<li><button type="button" class="js-logout ' + mobileLinkClass + ' w-full text-left">Log out</button></li>' +
