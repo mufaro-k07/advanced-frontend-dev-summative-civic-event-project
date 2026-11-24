@@ -6,20 +6,31 @@ const Layout = {
   notificationsRequest: null,
 
   RESIDENT_LINKS: [
-    { key: 'dashboard', label: 'Dashboard', href: 'pages/dashboard.html' },
+    { key: 'dashboard', label: 'Home', href: 'pages/dashboard.html' },
     { key: 'events', label: 'Events', href: 'pages/events.html' },
     { key: 'my-registrations', label: 'My registrations', href: 'pages/my-registrations.html' },
     { key: 'announcements', label: 'Announcements', href: 'pages/announcements.html' },
-    { key: 'promos', label: 'Promos', href: 'pages/promos.html' }
+    { key: 'promos', label: 'Promos', href: 'pages/promos.html' },
+    { key: 'services', label: 'Services', href: 'pages/services.html' }
   ],
 
-  ADMIN_MANAGE_LINKS: [
-    { key: 'admin-dashboard', label: 'Overview', href: 'admin/dashboard.html' },
-    { key: 'admin-event-form', label: 'New event', href: 'admin/event-form.html' },
-    { key: 'admin-announcement-form', label: 'New announcement', href: 'admin/announcement-form.html' },
-    { key: 'admin-promo-form', label: 'New promo', href: 'admin/promo-form.html' },
+  // alsoFor lists other pages that should light up the same link, e.g. the event form under Events
+  ADMIN_LINKS: [
+    { key: 'admin-dashboard', label: 'Dashboard', href: 'admin/dashboard.html' },
+    { key: 'events', label: 'Events', href: 'pages/events.html', alsoFor: ['admin-event-form'] },
+    { key: 'announcements', label: 'Announcements', href: 'pages/announcements.html', alsoFor: ['admin-announcement-form'] },
+    { key: 'promos', label: 'Promos', href: 'pages/promos.html', alsoFor: ['admin-promo-form'] },
+    { key: 'admin-service-requests', label: 'Service requests', href: 'admin/service-requests.html' },
     { key: 'admin-users', label: 'Users', href: 'admin/users.html' },
     { key: 'admin-notifications', label: 'Notifications', href: 'admin/notifications.html' }
+  ],
+
+  FOOTER_LINKS: [
+    { label: 'Events', href: 'pages/events.html' },
+    { label: 'Announcements', href: 'pages/announcements.html' },
+    { label: 'Promos', href: 'pages/promos.html' },
+    { label: 'City services', href: 'pages/services.html' },
+    { label: 'My registrations', href: 'pages/my-registrations.html' }
   ],
 
   // options.page is the key of the current page, so its link gets highlighted.
@@ -59,7 +70,8 @@ const Layout = {
     let html = '';
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
-      const current = link.key === currentPage ? ' aria-current="page"' : '';
+      const isCurrent = link.key === currentPage || (link.alsoFor && currentPage && link.alsoFor.indexOf(currentPage) !== -1);
+      const current = isCurrent ? ' aria-current="page"' : '';
       html += '<li><a href="' + Config.pageUrl(link.href) + '"' + current + ' class="' + linkClass + '">' + link.label + '</a></li>';
     }
     return html;
@@ -102,8 +114,8 @@ const Layout = {
           '<span>' + UI.escapeHtml(firstName) + '<span class="sr-only">, account menu</span></span>' +
           '<svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>' +
         '</button>' +
-        '<div id="profile-menu" class="absolute top-full right-0 z-40 mt-2 hidden w-64 rounded-card border border-mist bg-white p-2 shadow-sm">' +
-          '<div class="border-b border-mist px-3 py-2">' +
+        '<div id="profile-menu" class="absolute top-full right-0 z-40 mt-2 hidden w-64 rounded-card border border-line bg-white p-2 shadow-sm">' +
+          '<div class="border-b border-line px-3 py-2">' +
             '<p class="font-semibold">' + UI.escapeHtml(user.full_name || '') + '</p>' +
             '<p class="text-[0.8125rem] break-all text-ink-soft">' + UI.escapeHtml(user.email || '') + '</p>' +
           '</div>' +
@@ -127,14 +139,14 @@ const Layout = {
 
   residentHeaderHtml: function (currentPage) {
     const links = Layout.residentLinksFor();
-    const desktopLinkClass = 'inline-flex min-h-11 items-center border-b-[3px] border-transparent px-1 font-semibold text-ink transition-colors duration-150 hover:text-lily-teal aria-[current=page]:border-flame aria-[current=page]:text-lily-teal';
+    const desktopLinkClass = 'inline-flex min-h-11 items-center rounded-control px-3.5 text-[0.9375rem] font-semibold text-ink transition-colors duration-150 hover:bg-mist aria-[current=page]:bg-lily-teal aria-[current=page]:text-white';
     const mobileLinkClass = 'flex min-h-11 items-center rounded-control border-l-4 border-transparent px-3 font-semibold text-ink hover:bg-mist aria-[current=page]:border-flame aria-[current=page]:bg-mist';
 
-    return '<header class="border-b border-mist bg-white">' +
+    return '<header class="border-b border-line bg-white">' +
         // flex-wrap lets the row break onto two lines at very large text instead of spilling off the side
         '<div class="mx-auto flex max-w-[1200px] flex-wrap items-center gap-3 px-4 py-2 md:px-8">' +
           Layout.logoHtml('pages/dashboard.html', false) +
-          '<nav aria-label="Main" class="ml-4 hidden xl:block"><ul class="flex gap-4">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
+          '<nav aria-label="Main" class="ml-4 hidden xl:block"><ul class="flex gap-1">' + Layout.navLinksHtml(links, currentPage, desktopLinkClass) + '</ul></nav>' +
           '<div class="ml-auto flex items-center gap-1 sm:gap-2">' +
             '<div id="a11y-slot"></div>' +
             Layout.bellHtml() +
@@ -143,9 +155,9 @@ const Layout = {
           '</div>' +
         '</div>' +
         // On phones and tablets the links, profile and log out live in this menu instead
-        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-mist px-4 py-3 xl:hidden">' +
+        '<nav id="mobile-nav" aria-label="Main" class="hidden border-t border-line px-4 py-3 xl:hidden">' +
           '<ul class="grid gap-1">' + Layout.navLinksHtml(links, currentPage, mobileLinkClass) +
-            '<li class="mt-2 border-t border-mist pt-2"><a href="' + Config.pageUrl('pages/profile.html') + '" class="' + mobileLinkClass + '">Your profile</a></li>' +
+            '<li class="mt-2 border-t border-line pt-2"><a href="' + Config.pageUrl('pages/profile.html') + '" class="' + mobileLinkClass + '">Your profile</a></li>' +
             '<li><button type="button" class="js-logout ' + mobileLinkClass + ' w-full text-left">Log out</button></li>' +
           '</ul>' +
         '</nav>' +
@@ -154,35 +166,32 @@ const Layout = {
 
   // Admin sidebar and top bar
 
+  // The current page's link turns into a light tab that joins the page on the right
   adminSidebarHtml: function (currentPage) {
-    const linkClass = 'flex min-h-11 items-center rounded-control border-l-4 border-transparent px-3 font-semibold text-ivory hover:bg-lily-teal aria-[current=page]:border-sunshine aria-[current=page]:bg-lily-teal';
-    const browseLinks = [
-      { key: 'events', label: 'Events', href: 'pages/events.html' },
-      { key: 'announcements', label: 'Announcements', href: 'pages/announcements.html' },
-      { key: 'promos', label: 'Promos', href: 'pages/promos.html' }
-    ];
+    const linkClass = 'flex min-h-11 items-center rounded-control px-4 text-[0.9375rem] font-semibold text-white transition-colors duration-150 hover:bg-teal-deep md:rounded-r-none aria-[current=page]:bg-surface aria-[current=page]:text-lily-teal';
+    const smallLinkClass = 'inline-flex min-h-11 items-center text-sm text-mist underline-offset-2 hover:text-sunshine hover:underline';
 
-    return '<aside class="on-dark bg-teal-deep text-ivory md:sticky md:top-0 md:h-screen md:w-[248px] md:shrink-0 md:overflow-y-auto">' +
-        '<div class="flex items-center justify-between gap-2 px-4 py-3 md:px-5 md:py-6">' +
+    return '<aside class="on-dark flex flex-col bg-lily-teal text-white md:sticky md:top-0 md:h-screen md:w-[248px] md:shrink-0 md:overflow-y-auto">' +
+        '<div class="flex items-center justify-between gap-2 px-4 py-3 md:px-5 md:py-7">' +
           Layout.logoHtml('admin/dashboard.html', true) +
-          '<span class="rounded-full bg-sunshine px-2 py-0.5 text-xs font-bold text-ink">Admin</span>' +
-          '<button type="button" id="menu-button" aria-expanded="false" aria-controls="mobile-nav" class="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-control text-ivory hover:bg-lily-teal md:hidden">' +
+          '<button type="button" id="menu-button" aria-expanded="false" aria-controls="mobile-nav" class="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-control text-white hover:bg-teal-deep md:hidden">' +
             '<svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>' +
             '<span class="sr-only">Menu</span>' +
           '</button>' +
         '</div>' +
         // Always open from md up, a toggle below that
-        '<nav id="mobile-nav" aria-label="Admin" class="hidden px-3 pb-6 md:block">' +
-          '<p class="px-3 pb-2 text-[0.8125rem] font-semibold tracking-wide text-sunshine uppercase">Manage</p>' +
-          '<ul class="grid gap-1">' + Layout.navLinksHtml(Layout.ADMIN_MANAGE_LINKS, currentPage, linkClass) + '</ul>' +
-          '<p class="mt-6 px-3 pb-2 text-[0.8125rem] font-semibold tracking-wide text-sunshine uppercase">What residents see</p>' +
-          '<ul class="grid gap-1">' + Layout.navLinksHtml(browseLinks, currentPage, linkClass) + '</ul>' +
+        '<nav id="mobile-nav" aria-label="Admin" class="hidden flex-1 flex-col px-3 pb-6 md:flex md:pr-0 md:pl-5">' +
+          '<ul class="grid gap-1">' + Layout.navLinksHtml(Layout.ADMIN_LINKS, currentPage, linkClass) + '</ul>' +
+          '<div class="mt-8 grid px-4 md:mt-auto md:pr-5 md:pl-0">' +
+            '<a href="' + Config.pageUrl('pages/dashboard.html') + '" class="' + smallLinkClass + '">View resident site</a>' +
+            '<button type="button" class="js-logout text-left ' + smallLinkClass + '">Log out</button>' +
+          '</div>' +
         '</nav>' +
       '</aside>';
   },
 
   adminTopBarHtml: function () {
-    return '<header class="border-b border-mist bg-white">' +
+    return '<header class="border-b border-line bg-white">' +
         '<div class="flex items-center justify-end gap-2 px-4 py-2 md:px-8">' +
           '<div id="a11y-slot"></div>' +
           Layout.bellHtml() +
@@ -195,16 +204,27 @@ const Layout = {
 
   footerHtml: function () {
     const year = new Date().getFullYear();
-    return '<footer class="on-dark mt-16 bg-teal-deep text-ivory">' +
-        '<div class="mx-auto grid max-w-[1200px] gap-6 px-4 py-10 md:grid-cols-2 md:px-8">' +
-          '<div>' +
-            Layout.logoHtml(Auth.isAdmin() ? 'admin/dashboard.html' : 'pages/dashboard.html', true) +
-            '<p class="mt-4 font-heading text-2xl font-bold">Harare\'s community, in full <span class="font-accent font-normal italic text-sunshine">bloom</span>.</p>' +
+    let links = '';
+    for (let i = 0; i < Layout.FOOTER_LINKS.length; i++) {
+      const link = Layout.FOOTER_LINKS[i];
+      links += '<li><a href="' + Config.pageUrl(link.href) + '" class="inline-flex min-h-11 items-center text-[0.9375rem] text-mist underline-offset-2 hover:text-sunshine hover:underline">' + link.label + '</a></li>';
+    }
+
+    return '<footer class="on-dark mt-16 bg-teal-deep text-mist">' +
+        '<div class="mx-auto grid max-w-[1200px] gap-8 px-4 pt-14 pb-10 md:grid-cols-3 md:px-8">' +
+          '<div class="md:col-span-2">' +
+            '<p class="font-heading text-[1.75rem] leading-tight font-extrabold text-ivory">Good things happen when Harare <span class="text-sunshine">shows up.</span></p>' +
+            '<p class="mt-3 text-sm">263 is Zimbabwe\'s dialling code. Harare is the Sunshine City.</p>' +
           '</div>' +
-          '<div class="text-sm md:text-right">' +
-            '<p>263 is Zimbabwe\'s dialling code. Harare is the Sunshine City.</p>' +
-            '<p class="mt-2">A student project. Not affiliated with the City of Harare.</p>' +
-            '<p class="mt-2">&copy; ' + year + ' Sunshine 263</p>' +
+          '<nav aria-label="Explore">' +
+            '<p class="mb-2 text-[0.8125rem] font-bold tracking-widest text-sunshine uppercase">Explore</p>' +
+            '<ul>' + links + '</ul>' +
+          '</nav>' +
+        '</div>' +
+        '<div class="border-t border-lily-teal">' +
+          '<div class="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-x-4 gap-y-1 px-4 py-4 text-[0.8125rem] md:px-8">' +
+            '<p>A student project. Not affiliated with the City of Harare.</p>' +
+            '<p>&copy; ' + year + ' Sunshine 263 · Photo credits are in the README</p>' +
           '</div>' +
         '</div>' +
       '</footer>';
@@ -313,7 +333,8 @@ const Layout = {
   NOTIFICATION_TYPES: {
     event: { label: 'Event', idKey: 'event_id', page: 'pages/event.html', linkText: 'Go to the event' },
     announcement: { label: 'Announcement', idKey: 'announcement_id', page: 'pages/announcement.html', linkText: 'Listen to the announcement' },
-    promo: { label: 'Promo', idKey: 'promo_id', page: 'pages/promo.html', linkText: 'Watch the promo' }
+    promo: { label: 'Promo', idKey: 'promo_id', page: 'pages/promo.html', linkText: 'Watch the promo' },
+    service: { label: 'Service request', idKey: 'service_request_id', page: 'pages/services.html', linkText: 'See your request' }
   },
 
   notificationTypeLabel: function (notification) {
@@ -367,7 +388,7 @@ const Layout = {
     return '<div id="drawer-backdrop" class="fixed inset-0 z-40 hidden bg-ink/40" aria-hidden="true"></div>' +
       '<div id="notification-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" ' +
         'class="drawer fixed inset-y-0 right-0 z-50 hidden w-full max-w-sm flex-col bg-white shadow-sm">' +
-        '<div class="flex items-center justify-between border-b border-mist px-5 py-4">' +
+        '<div class="flex items-center justify-between border-b border-line px-5 py-4">' +
           '<h2 id="drawer-title" class="text-2xl font-bold">Notifications</h2>' +
           '<button type="button" id="drawer-close" class="inline-flex h-11 w-11 items-center justify-center rounded-control text-ink hover:bg-mist">' +
             '<svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
@@ -375,7 +396,7 @@ const Layout = {
           '</button>' +
         '</div>' +
         '<div id="drawer-list" class="flex-1 overflow-y-auto px-5 py-4"></div>' +
-        '<div class="flex flex-wrap items-center justify-between gap-2 border-t border-mist px-5 py-4">' +
+        '<div class="flex flex-wrap items-center justify-between gap-2 border-t border-line px-5 py-4">' +
           '<button type="button" id="drawer-mark-all" class="btn btn-secondary">Mark all as read</button>' +
           '<a href="' + Config.pageUrl('pages/notifications.html') + '" class="font-semibold text-lily-teal underline underline-offset-2">See all</a>' +
         '</div>' +
@@ -404,7 +425,7 @@ const Layout = {
     const unread = !Layout.isRead(notification.id);
     const href = Config.pageUrl('pages/notification.html?id=' + encodeURIComponent(notification.id));
     return '<li>' +
-        '<a href="' + href + '" class="flex gap-3 rounded-card p-3 hover:bg-mist ' + (unread ? 'bg-ivory' : '') + '">' +
+        '<a href="' + href + '" class="flex gap-3 rounded-card p-3 hover:bg-mist ' + (unread ? 'bg-surface' : '') + '">' +
           '<span aria-hidden="true" class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full ' + (unread ? 'bg-flame' : 'bg-transparent') + '"></span>' +
           '<span class="min-w-0">' +
             '<span class="block ' + (unread ? 'font-semibold' : '') + '">' + (unread ? '<span class="sr-only">Unread: </span>' : '') + UI.escapeHtml(notification.title) + '</span>' +
