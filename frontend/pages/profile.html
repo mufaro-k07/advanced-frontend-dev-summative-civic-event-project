@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your profile · Sunshine 263</title>
+  <script>
+    // Put saved accessibility settings on before the page draws, so the old look never flashes
+    (function () {
+      try {
+        const s = JSON.parse(localStorage.getItem('sunshine_a11y')) || {};
+        const html = document.documentElement;
+        if (s.textSize && s.textSize !== 'default') { html.setAttribute('data-text-size', s.textSize); }
+        if (s.contrast === 'on') { html.setAttribute('data-contrast', 'high'); }
+        if (s.motion === 'reduced') { html.setAttribute('data-motion', 'reduced'); }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,600..800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+<body class="flex min-h-screen flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div id="site-header" class="min-h-[61px] border-b border-mist bg-white"></div>
+
+  <main id="main" tabindex="-1" class="mx-auto w-full max-w-[1200px] flex-1 px-4 py-8 md:px-8">
+    <h1 class="text-[1.75rem] font-extrabold md:text-[2rem]">Your profile</h1>
+    <p class="mt-1 mb-6 text-ink-soft">Keep your name and email up to date.</p>
+
+    <div class="grid max-w-4xl gap-6 lg:grid-cols-[3fr_2fr]">
+      <div>
+        <div id="form-error" role="alert" class="mb-6 hidden rounded-control border border-error bg-white p-4 text-error"></div>
+        <div id="profile-loading"></div>
+
+        <form id="profile-form" class="card-border hidden rounded-panel border border-mist bg-white p-6 shadow-sm" novalidate>
+          <div class="mb-5">
+            <label for="full-name" class="field-label">Full name</label>
+            <input id="full-name" type="text" autocomplete="name" required maxlength="150" aria-describedby="full-name-error" class="field-input">
+            <p id="full-name-error" class="field-error hidden" aria-live="polite"></p>
+          </div>
+          <div class="mb-6">
+            <label for="email" class="field-label">Email</label>
+            <input id="email" type="email" autocomplete="email" required aria-describedby="email-hint email-error" class="field-input">
+            <p id="email-hint" class="field-hint">You'll use this to log in.</p>
+            <p id="email-error" class="field-error hidden" aria-live="polite"></p>
+          </div>
+          <button type="submit" id="save-button" class="btn btn-primary"><span class="js-button-label">Save changes</span></button>
+        </form>
+      </div>
+
+      <aside aria-labelledby="account-heading" class="card-border h-fit rounded-panel border border-mist bg-white p-6 shadow-sm">
+        <h2 id="account-heading" class="mb-4 text-2xl font-bold">Your account</h2>
+        <dl id="account-details" class="grid gap-3"></dl>
+        <p class="mt-6 text-sm text-ink-soft">Looking for bigger text or more contrast? Use the <strong>Accessibility</strong> button at the top of any page.</p>
+      </aside>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/guards.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/a11y.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/validate.js"></script>
+  <script src="../js/pages/profile.js"></script>
+</body>
+</html>

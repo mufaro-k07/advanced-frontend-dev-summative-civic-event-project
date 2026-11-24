@@ -90,6 +90,16 @@ const Auth = {
     return Auth.getRole() === 'admin';
   },
 
+  // After a profile edit, save the new name and email in whichever storage holds the login
+  updateUser: function (user) {
+    try {
+      const store = window.localStorage.getItem(Auth.TOKEN_KEY) ? window.localStorage : window.sessionStorage;
+      store.setItem(Auth.USER_KEY, JSON.stringify(user));
+    } catch (err) {
+      // The page still shows the new details, they just won't be remembered
+    }
+  },
+
   // Logs the person out the moment their token runs out, even if they're just sitting on a page
   watchExpiry: function () {
     const token = Auth.getToken();
