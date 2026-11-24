@@ -63,6 +63,32 @@ function handleImageChange() {
 
 // Checking the form
 
+// The links box, one link per line, without the empty lines
+function linkLines() {
+  const lines = $('#links').val().split('\n');
+  const links = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() !== '') {
+      links.push(lines[i].trim());
+    }
+  }
+  return links;
+}
+
+// Returns what's wrong with the links, or '' if they're fine. The backend checks again.
+function linksError() {
+  const links = linkLines();
+  if (links.length > EventLinks.MAX) {
+    return 'Add ' + EventLinks.MAX + ' links at most. You have ' + links.length + '.';
+  }
+  for (let i = 0; i < links.length; i++) {
+    if (!EventLinks.platformFor(links[i])) {
+      return '"' + links[i] + '" isn\'t a YouTube, Instagram or TikTok link. Check it starts with https://';
+    }
+  }
+  return '';
+}
+
 function validateEventForm() {
   const $title = $('#title');
   const $location = $('#location');
@@ -74,6 +100,7 @@ function validateEventForm() {
   UI.clearFieldError($location);
   UI.clearFieldError($start);
   UI.clearFieldError($end);
+  UI.clearFieldError($('#links'));
 
   if ($title.val().trim() === '') {
     UI.setFieldError($title, 'Give the event a name.');
@@ -94,6 +121,11 @@ function validateEventForm() {
     UI.setFieldError($end, 'The end has to be after the start.');
     isValid = false;
   }
+  const problemWithLinks = linksError();
+  if (problemWithLinks) {
+    UI.setFieldError($('#links'), problemWithLinks);
+    isValid = false;
+  }
 
   if (!isValid) {
     $('#event-form [aria-invalid="true"]').first().trigger('focus');
@@ -111,6 +143,8 @@ function buildFormData() {
   // Turn the local time into a full ISO date so the backend stores the right moment
   formData.append('starts_at', new Date($('#starts-at').val()).toISOString());
   formData.append('ends_at', new Date($('#ends-at').val()).toISOString());
+  // Always sent, so emptying the box on an edit removes the old links
+  formData.append('links', linkLines().join('\n'));
 
   const file = $('#image')[0].files[0];
   if (file) {
@@ -157,6 +191,9 @@ function fillForm(event) {
   if (event.metadata && event.metadata.image_url) {
     showImagePreview(event.metadata.image_url, 'Current photo. Choose a new file to replace it.');
   }
+  if (event.metadata && event.metadata.links) {
+    $('#links').val(event.metadata.links.join('\n'));
+  }
 }
 
 function loadEventForEditing() {
@@ -190,5 +227,5 @@ if (Guards.requireAdmin()) {
   }
   $('#image').on('change', handleImageChange);
   $('#event-form').on('submit', handleSubmit);
-  $('#title, #location, #starts-at, #ends-at').on('input change', clearErrorOnInput);
+  $('#title, #location, #starts-at, #ends-at, #links').on('input change', clearErrorOnInput);
 }

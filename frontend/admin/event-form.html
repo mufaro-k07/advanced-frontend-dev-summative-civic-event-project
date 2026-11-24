@@ -82,6 +82,14 @@
             <div id="image-preview" class="mt-3"></div>
           </div>
 
+          <div class="mb-5">
+            <label for="links" class="field-label">Video or social links <span class="font-normal text-ink-soft">(optional)</span></label>
+            <textarea id="links" rows="3" aria-describedby="links-hint links-error" class="field-input py-2"
+                      placeholder="https://www.youtube.com/watch?v=..."></textarea>
+            <p id="links-hint" class="field-hint">One per line. YouTube, Instagram or TikTok only.</p>
+            <p id="links-error" class="field-error hidden" aria-live="polite"></p>
+          </div>
+
           <!-- The backend has no way to unpublish events yet (gap 2), so this is shown but locked -->
           <div class="mb-6 rounded-control bg-mist p-4">
             <label class="flex min-h-11 items-center gap-3">
@@ -111,6 +119,7 @@
   <script src="../js/a11y.js"></script>
   <script src="../js/layout.js"></script>
   <script src="../js/validate.js"></script>
+  <script src="../js/event-links.js"></script>
   <script src="../js/pages/event-form.js"></script>
 </body>
 </html>

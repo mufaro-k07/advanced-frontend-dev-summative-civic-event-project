@@ -23,6 +23,7 @@ function eventPageHtml(event) {
         '<h2 class="mt-6 mb-2 text-2xl font-bold">About this event</h2>' +
         // whitespace-pre-line keeps the admin's line breaks without us inserting any HTML
         '<p id="event-description" class="whitespace-pre-line"></p>' +
+        '<div id="event-links"></div>' +
       '</article>' +
 
       '<aside aria-labelledby="details-heading" class="lg:sticky lg:top-6 lg:self-start">' +
@@ -48,6 +49,70 @@ function eventPageHtml(event) {
 
     // Only filled in for admins
     '<div id="admin-panel"></div>';
+}
+
+// From the organiser: YouTube videos and Instagram or TikTok link cards
+
+const EXTERNAL_ICON = '<svg aria-hidden="true" class="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 1 0 0 2h2.59l-6.3 6.29a1 1 0 1 0 1.42 1.42L15 6.41V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5Z"/><path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 0 0 0-2H5Z"/></svg>';
+
+const SOCIAL_CARDS = {
+  instagram: {
+    text: 'See the post on Instagram',
+    icon: '<svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'
+  },
+  tiktok: {
+    text: 'Watch on TikTok',
+    icon: '<svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.2 1.8 3.7 4 3.9v3.2c-1.5 0-2.8-.4-4-1.2v6.3c0 3.6-2.7 5.8-5.8 5.8A5.6 5.6 0 0 1 5.2 15.4c0-3.4 2.9-6 6.4-5.5v3.3c-1.6-.4-3.1.7-3.1 2.2 0 1.3 1 2.3 2.3 2.3 1.4 0 2.4-.9 2.4-2.7V3h3.4Z"/></svg>'
+  }
+};
+
+// youtube-nocookie.com doesn't set tracking cookies until someone presses play
+function youtubeEmbedHtml(videoId, eventTitle) {
+  return '<div class="relative aspect-video overflow-hidden rounded-card bg-ink">' +
+      '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '" ' +
+        'title="Video: ' + UI.escapeHtml(eventTitle) + '" loading="lazy" allowfullscreen ' +
+        'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" ' +
+        'class="absolute inset-0 h-full w-full border-0"></iframe>' +
+    '</div>';
+}
+
+function socialCardHtml(link, platform) {
+  const card = SOCIAL_CARDS[platform];
+  return '<a href="' + UI.escapeHtml(link) + '" target="_blank" rel="noopener" ' +
+      'class="card-border flex min-h-11 items-center gap-4 rounded-card border border-line bg-white p-4 hover:border-lily-teal">' +
+      '<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-control bg-mist text-lily-teal">' + card.icon + '</span>' +
+      '<span class="min-w-0 flex-1">' +
+        '<span class="block font-semibold text-lily-teal">' + card.text + '<span class="sr-only"> (opens in a new tab)</span></span>' +
+        '<span class="block truncate text-[0.8125rem] text-ink-soft">' + UI.escapeHtml(EventLinks.shortUrl(link)) + '</span>' +
+      '</span>' +
+      '<span class="text-ink-soft">' + EXTERNAL_ICON + '</span>' +
+    '</a>';
+}
+
+// Links we can't make sense of are skipped, so a typo never breaks the page
+function renderEventLinks(event) {
+  const links = (event.metadata && event.metadata.links) || [];
+  let items = '';
+  for (let i = 0; i < links.length; i++) {
+    const platform = EventLinks.platformFor(links[i]);
+    if (platform === 'youtube') {
+      const videoId = EventLinks.youtubeId(links[i]);
+      if (videoId) {
+        items += '<li>' + youtubeEmbedHtml(videoId, event.title) + '</li>';
+      }
+    } else if (SOCIAL_CARDS[platform]) {
+      items += '<li>' + socialCardHtml(links[i], platform) + '</li>';
+    }
+  }
+  if (!items) {
+    return;
+  }
+  $('#event-links').html(
+    '<section aria-labelledby="links-heading" class="mt-8">' +
+      '<h2 id="links-heading" class="mb-3 text-2xl font-bold">From the organiser</h2>' +
+      '<ul class="grid gap-4">' + items + '</ul>' +
+    '</section>'
+  );
 }
 
 function renderBadges() {
@@ -468,6 +533,7 @@ function loadEvent() {
       document.title = event.title + ' · Sunshine 263';
       $('#event-content').html(eventPageHtml(event));
       $('#event-description').text(event.description || 'No description has been added yet.');
+      renderEventLinks(event);
       renderRegistrationBox();
       renderFeedback();
       showAdminPanel();
