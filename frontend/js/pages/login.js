@@ -8,6 +8,7 @@ const LOGIN_NOTICES = {
   'expired': { type: 'info', text: 'Your session ended after an hour, which happens for your safety. Please log in again.' },
   'login-required': { type: 'info', text: 'Please log in to see that page.' },
   'logged-out': { type: 'success', text: "You've logged out. See you soon." },
+  'registered': { type: 'success', text: 'Account created. Log in to get started.' },
   'disabled': { type: 'error', text: 'This account has been disabled, so you cannot log in. If you think this is a mistake, contact the city team.' }
 };
 
@@ -31,6 +32,15 @@ function showLoginNotice() {
     .addClass('rounded-control border-l-4 p-4 ' + styles[notice.type])
     .html('<p class="flex items-start gap-2">' + UI.icons[notice.type] + '<span>' + label + UI.escapeHtml(notice.text) + '</span></p>')
     .removeClass('hidden');
+
+  // Take ?reason= out of the address, so a reload or the back button doesn't show it again
+  window.history.replaceState(null, '', window.location.pathname);
+}
+
+// Only one message box at a time, so the notice goes once they start typing,
+// press Log in, or an error shows up
+function hideLoginNotice() {
+  $('#login-notice').addClass('hidden').empty();
 }
 
 // Checks the form before we bother the server. Returns true if it's ready to send.
@@ -72,6 +82,7 @@ function loginErrorMessage(xhr) {
 
 function handleLoginSubmit(event) {
   event.preventDefault();
+  hideLoginNotice();
   UI.hideFormError($('#form-error'));
 
   if (!validateLoginForm()) {
@@ -106,11 +117,12 @@ function handleLoginSubmit(event) {
 // Clear a field's error as soon as the person starts fixing it
 function clearErrorOnInput() {
   UI.clearFieldError($(this));
+  hideLoginNotice();
 }
 
 showLoginNotice();
-// true, because the button sits on the flame lily photo
-A11y.mount($('#a11y-slot'), true);
+// The light version, because the button sits on the flame lily photo
+A11y.mount($('#a11y-slot'), { onPhoto: true });
 UI.setupPasswordToggle($('#toggle-password'));
 $('#login-form').on('submit', handleLoginSubmit);
 $('#email, #password').on('input', clearErrorOnInput);

@@ -153,12 +153,12 @@ function logInNewUser(email, password) {
   Api.post('/auth/login', { email: email, password: password })
     .done(function (response) {
       Auth.finishLogin(response.data.token, false).fail(function () {
-        window.location.replace('login.html');
+        window.location.replace('login.html?reason=registered');
       });
     })
     .fail(function () {
       // The account exists, so the login page is the next best place
-      window.location.replace('login.html');
+      window.location.replace('login.html?reason=registered');
     });
 }
 
@@ -166,8 +166,8 @@ function clearErrorOnInput() {
   UI.clearFieldError($(this));
 }
 
-// true, because the button sits on the flame lily photo
-A11y.mount($('#a11y-slot'), true);
+// The light version, because the button sits on the flame lily photo
+A11y.mount($('#a11y-slot'), { onPhoto: true });
 UI.setupPasswordToggle($('#toggle-password'));
 updateStrengthMeter();
 $('#password').on('input', updateStrengthMeter);
