@@ -16,13 +16,14 @@ export const findById = async (id) => {
 };
 
 export const create = async (data) => {
-    const { title, audio_url, published = true } = data;
+    const { title, audio_url, published = true, transcript = null } = data;
 
+    // An empty transcript is saved as null, so "no transcript" always looks the same
     const res = await db.query(
-        `INSERT INTO announcements (title, audio_url, published)
-         VALUES ($1, $2, $3)
+        `INSERT INTO announcements (title, audio_url, published, transcript)
+         VALUES ($1, $2, $3, $4)
          RETURNING *`,
-        [title, audio_url, published]
+        [title, audio_url, published, transcript || null]
     );
 
     return res.rows[0];
@@ -34,6 +35,7 @@ export const update = async (id, data) => {
         throw Object.assign(new Error('Announcement not found'), { status: 404 });
     }
 
+    // If transcript isn't sent, the existing one is kept by this spread
     const updated = { ...existing, ...data };
 
     const res = await db.query(
@@ -41,10 +43,11 @@ export const update = async (id, data) => {
          SET title = $1,
              audio_url = $2,
              published = $3,
+             transcript = $4,
              updated_at = NOW()
-         WHERE id = $4
+         WHERE id = $5
          RETURNING *`,
-        [updated.title, updated.audio_url, updated.published, id]
+        [updated.title, updated.audio_url, updated.published, updated.transcript || null, id]
     );
 
     return res.rows[0];
